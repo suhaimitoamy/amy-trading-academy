@@ -11,12 +11,7 @@ Website materi trading HTML langsung untuk GitHub Pages.
 - Prompt gambar ada di tiap materi
 - Sistem login kode akses
 
-## Kode test awal
-Kode test lokal: `AMY-TEST-2026`
-
-Hapus kode ini setelah deploy dengan mengedit `data/access-codes.json`, lalu buat kode baru dari GitHub Actions.
-
-## Cara generate kode dari GitHub
+## Cara generate kode akses dari GitHub
 1. Upload semua file ke repository GitHub.
 2. Buka tab **Actions**.
 3. Jalankan workflow **Generate Access Codes**.
