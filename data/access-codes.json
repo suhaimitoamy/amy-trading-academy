@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "salt": "amy-academy-public-salt-v1",
+  "updatedAt": "2026-05-30T16:50:47.009813+00:00",
+  "codes": [
+    {
+      "label": "Initial Test Code",
+      "hash": "d251312b7499982c46fbab95732f221e559555f59a0c211a0c7b8ddfb4fcb8c2",
+      "active": true,
+      "createdAt": "2026-05-30T16:50:47.009827+00:00",
+      "expiresAt": null
+    }
+  ]
+}
