@@ -382,6 +382,7 @@
   }
 
   function init() {
+    setTheme(getCurrentTheme());
     loadGlassAlpha();
     injectGlassCSS();
     createThemePanel();
