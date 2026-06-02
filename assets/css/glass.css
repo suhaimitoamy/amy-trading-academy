@@ -395,36 +395,34 @@ body {
 }
 
 @media (max-width: 900px) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
   .glass-hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
+    width: 100%;
+    display: block;
   }
 
   .glass-hero .hero-card {
-    padding: 38px 24px;
+    width: 100%;
+    padding: 32px 22px;
   }
 
-  .glass-hero .feature-grid {
+  .cards {
+    width: 100%;
     grid-template-columns: 1fr;
   }
 
+  .course-card {
+    width: 100%;
+  }
+
   .hero-visual {
-    min-height: 390px;
-  }
-
-  .chart-glass-card {
-    min-height: 370px;
-  }
-
-  .chart-stage {
-    height: 220px;
-  }
-
-  .floating-glass-card {
-    position: relative;
-    inset: auto;
-    display: inline-block;
-    margin: 12px 8px 0 0;
+    display: none !important;
   }
 }
 

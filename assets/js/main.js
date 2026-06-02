@@ -4,6 +4,20 @@
 (function() {
   'use strict';
 
+  // Apply Theme Early to prevent flash
+  var earlySavedTheme = localStorage.getItem('amy_theme');
+  if (earlySavedTheme) {
+    document.documentElement.dataset.theme = earlySavedTheme;
+  }
+
+  // Apply Glass Alpha Early
+  var earlySavedAlpha = localStorage.getItem('amy_glass_alpha');
+  if (earlySavedAlpha) {
+    document.documentElement.style.setProperty('--glass-alpha', earlySavedAlpha);
+  } else {
+    document.documentElement.style.setProperty('--glass-alpha', '0.66');
+  }
+
   /* ==========================================
      SECTION 1: THEME SYSTEM (15 THEMES)
      ========================================== */
@@ -364,12 +378,6 @@
      SECTION 4: INITIALIZATION
      ========================================== */
 
-  function loadGlassAlpha() {
-    var savedAlpha = localStorage.getItem('amy_glass_alpha');
-    var currentAlpha = savedAlpha ? parseFloat(savedAlpha) : 0.66;
-    document.documentElement.style.setProperty('--glass-alpha', currentAlpha);
-  }
-
   function injectGlassCSS() {
     if (!document.getElementById('amyGlassCss')) {
       var link = document.createElement('link');
@@ -382,8 +390,6 @@
   }
 
   function init() {
-    setTheme(getCurrentTheme());
-    loadGlassAlpha();
     injectGlassCSS();
     createThemePanel();
     injectThemeToggle();
