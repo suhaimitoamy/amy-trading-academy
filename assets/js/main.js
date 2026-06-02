@@ -76,6 +76,42 @@
 
     panel.appendChild(grid);
 
+    // Glass Control
+    var glassControl = document.createElement('div');
+    glassControl.className = 'glass-control';
+    
+    var glassLabel = document.createElement('label');
+    glassLabel.innerHTML = '<span>Transparansi Kaca</span><span id="glassValDisplay">66%</span>';
+    
+    var glassRange = document.createElement('input');
+    glassRange.type = 'range';
+    glassRange.min = '36';
+    glassRange.max = '92';
+    
+    var savedAlpha = localStorage.getItem('amy_glass_alpha');
+    var currentAlpha = savedAlpha ? parseFloat(savedAlpha) : 0.66;
+    glassRange.value = Math.round(currentAlpha * 100);
+    
+    var displaySpan = glassLabel.querySelector('#glassValDisplay');
+    displaySpan.textContent = glassRange.value + '%';
+    
+    glassRange.addEventListener('input', function() {
+      var val = parseInt(this.value, 10);
+      var alpha = val / 100;
+      document.documentElement.style.setProperty('--glass-alpha', alpha);
+      displaySpan.textContent = val + '%';
+      localStorage.setItem('amy_glass_alpha', alpha);
+    });
+    
+    var glassNote = document.createElement('small');
+    glassNote.textContent = 'Sesuaikan efek tembus pandang (glass) sesuai selera Anda.';
+    
+    glassControl.appendChild(glassLabel);
+    glassControl.appendChild(glassRange);
+    glassControl.appendChild(glassNote);
+    
+    panel.appendChild(glassControl);
+
     var closeBtn = document.createElement('button');
     closeBtn.className = 'theme-panel-close';
     closeBtn.textContent = 'Tutup';
@@ -328,7 +364,26 @@
      SECTION 4: INITIALIZATION
      ========================================== */
 
+  function loadGlassAlpha() {
+    var savedAlpha = localStorage.getItem('amy_glass_alpha');
+    var currentAlpha = savedAlpha ? parseFloat(savedAlpha) : 0.66;
+    document.documentElement.style.setProperty('--glass-alpha', currentAlpha);
+  }
+
+  function injectGlassCSS() {
+    if (!document.getElementById('amyGlassCss')) {
+      var link = document.createElement('link');
+      link.id = 'amyGlassCss';
+      link.rel = 'stylesheet';
+      var root = (typeof ROOT_PATH !== 'undefined') ? ROOT_PATH : '';
+      link.href = root + 'assets/css/glass.css';
+      document.head.appendChild(link);
+    }
+  }
+
   function init() {
+    loadGlassAlpha();
+    injectGlassCSS();
     createThemePanel();
     injectThemeToggle();
     initHamburger();
