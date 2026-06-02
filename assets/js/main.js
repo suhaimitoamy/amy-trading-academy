@@ -179,19 +179,36 @@
     var navlinks = document.getElementById('navlinks');
     if (!hamburger || !navlinks) return;
 
-    hamburger.addEventListener('click', function() {
-      hamburger.classList.toggle('active');
-      navlinks.classList.toggle('open');
-      document.body.style.overflow = navlinks.classList.contains('open') ? 'hidden' : '';
-    });
+    var overlay = document.createElement('div');
+    overlay.className = 'drawer-overlay';
+    document.body.appendChild(overlay);
 
-    // Close menu when clicking nav links
-    navlinks.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', function() {
+    var closeBtn = document.createElement('button');
+    closeBtn.innerHTML = '✕';
+    closeBtn.className = 'drawer-close-btn';
+    navlinks.insertBefore(closeBtn, navlinks.firstChild);
+
+    function toggleMenu() {
+      var isOpen = navlinks.classList.contains('open');
+      if (isOpen) {
         hamburger.classList.remove('active');
         navlinks.classList.remove('open');
+        overlay.classList.remove('active');
         document.body.style.overflow = '';
-      });
+      } else {
+        hamburger.classList.add('active');
+        navlinks.classList.add('open');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+    closeBtn.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+
+    navlinks.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', toggleMenu);
     });
   }
 
@@ -286,12 +303,13 @@
     var html = '<img src="' + escHtml(src) + '" alt="' + escHtml(caption || 'Ilustrasi materi') + '" loading="lazy">';
     if (caption) html += '<p class="slot-caption">' + escHtml(caption) + '</p>';
 
-    var actionsHtml = '<div class="image-slot-actions">';
+    var actionsHtml = '<details class="kelola-gambar-collapse" style="margin-top:12px;"><summary style="cursor:pointer; font-size:13px; color:var(--muted); font-weight:700;">⚙️ Kelola Gambar</summary>';
+    actionsHtml += '<div class="image-slot-actions" style="margin-top:8px; justify-content:flex-start;">';
     actionsHtml += '<button class="btn sm ghost slot-upload-btn">📷 Ganti Gambar</button>';
     if (prompt) {
       actionsHtml += '<button class="btn sm ghost slot-prompt-btn">📝 Lihat Prompt</button>';
     }
-    actionsHtml += '</div>';
+    actionsHtml += '</div></details>';
 
     if (prompt) {
       actionsHtml += '<details class="prompt-box"><summary>Prompt gambar</summary><div class="prompt-content">' +
@@ -310,13 +328,14 @@
     html += '<div class="slot-text">Gambar belum tersedia</div>';
     if (imgPath) html += '<div class="slot-path">' + escHtml(imgPath) + '</div>';
 
-    html += '<div class="image-slot-actions">';
+    html += '<details class="kelola-gambar-collapse" style="margin-top:12px; text-align:left;"><summary style="cursor:pointer; font-size:13px; color:var(--muted); font-weight:700;">⚙️ Kelola Gambar</summary>';
+    html += '<div class="image-slot-actions" style="margin-top:8px; justify-content:flex-start;">';
     html += '<button class="btn sm primary slot-upload-btn">📷 Upload Gambar</button>';
     if (prompt) {
       html += '<button class="btn sm ghost slot-prompt-btn">📝 Lihat Prompt</button>';
       html += '<button class="btn sm ghost slot-copy-prompt">📋 Copy Prompt</button>';
     }
-    html += '</div>';
+    html += '</div></details>';
 
     if (prompt) {
       html += '<details class="prompt-box" style="margin-top:12px;text-align:left"><summary>Prompt gambar</summary><div class="prompt-content">' +
@@ -375,8 +394,126 @@
   }
 
   /* ==========================================
-     SECTION 4: INITIALIZATION
+     SECTION 4: MOBILE UX & INITIALIZATION
      ========================================== */
+
+  function initLanjutBelajar() {
+    var container = document.getElementById('lanjutBelajarContainer');
+    if (!container) return;
+    
+    container.style.display = 'block';
+    
+    var titleEl = document.getElementById('lanjutBelajarTitle');
+    var btnEl = document.getElementById('lanjutBelajarBtn');
+    
+    var lastTitle = localStorage.getItem('amy_last_opened_title');
+    var lastUrl = localStorage.getItem('amy_last_opened_url');
+    
+    if (lastTitle && lastUrl) {
+      titleEl.textContent = lastTitle;
+      btnEl.href = lastUrl;
+    }
+  }
+
+  function trackReadingProgress() {
+    var article = document.querySelector('.article-layout .article');
+    if (article) {
+      var h1 = article.querySelector('h1');
+      if (h1) {
+        localStorage.setItem('amy_last_opened_title', h1.textContent);
+        localStorage.setItem('amy_last_opened_url', window.location.href);
+      }
+    }
+  }
+
+  function updateCourseProgress() {
+    var lastUrl = localStorage.getItem('amy_last_opened_url') || '';
+    var courseCards = document.querySelectorAll('.course-card');
+    courseCards.forEach(function(card) {
+      var link = card.querySelector('a');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      var folderMatch = href.match(/bagian-\d+[^/]+/);
+      if (folderMatch) {
+        var folder = folderMatch[0];
+        var badge = document.createElement('span');
+        badge.className = 'progress-badge';
+        badge.style.fontSize = '12px';
+        badge.style.fontWeight = '700';
+        badge.style.padding = '4px 10px';
+        badge.style.borderRadius = '99px';
+        badge.style.marginBottom = '8px';
+        badge.style.display = 'inline-block';
+        badge.style.width = 'fit-content';
+        
+        if (lastUrl.indexOf(folder) !== -1) {
+          badge.textContent = 'Sedang dipelajari';
+          badge.style.background = 'var(--accent-soft)';
+          badge.style.color = 'var(--accent)';
+        } else {
+          badge.textContent = 'Belum mulai';
+          badge.style.background = 'var(--surface-soft)';
+          badge.style.color = 'var(--muted)';
+          badge.style.border = '1px solid var(--border)';
+        }
+        card.insertBefore(badge, card.firstChild);
+      }
+    });
+  }
+
+  function initFilters() {
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    if (filterBtns.length === 0) return;
+    
+    filterBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filterBtns.forEach(function(b) {
+          b.classList.remove('active');
+          b.classList.add('ghost');
+        });
+        btn.classList.add('active');
+        btn.classList.remove('ghost');
+        
+        var filter = btn.dataset.filter;
+        var panels = document.querySelectorAll('.panel');
+        panels.forEach(function(panel) {
+          if (filter === 'Semua' || panel.dataset.category === filter) {
+            panel.style.display = 'block';
+          } else {
+            panel.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  function initReaderMode() {
+    var article = document.querySelector('.article-layout .article');
+    if (!article) return;
+    
+    var progressBar = document.createElement('div');
+    progressBar.className = 'reading-progress-bar';
+    document.body.appendChild(progressBar);
+    
+    var fab = document.createElement('button');
+    fab.className = 'fab-to-top';
+    fab.innerHTML = '↑';
+    fab.onclick = function() { window.scrollTo({top: 0, behavior: 'smooth'}); };
+    document.body.appendChild(fab);
+    
+    window.addEventListener('scroll', function() {
+      var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + '%';
+      
+      if (winScroll > 300) {
+        fab.classList.add('visible');
+      } else {
+        fab.classList.remove('visible');
+      }
+    });
+  }
 
   function injectGlassCSS() {
     if (!document.getElementById('amyGlassCss')) {
@@ -395,6 +532,11 @@
     injectThemeToggle();
     initHamburger();
     initImageSlots();
+    initLanjutBelajar();
+    trackReadingProgress();
+    updateCourseProgress();
+    initFilters();
+    initReaderMode();
   }
 
   // Run on DOM ready
