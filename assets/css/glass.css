@@ -394,54 +394,88 @@ body {
   line-height: 1.5;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  html,
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   .container {
     width: 100%;
     max-width: 100%;
-    padding-left: 14px;
-    padding-right: 14px;
+    padding: 22px 16px;
+    margin: 0;
   }
 
   .glass-hero {
-    width: 100%;
     display: block;
+    width: 100%;
+    min-height: auto;
   }
 
   .glass-hero .hero-card {
     width: 100%;
     padding: 32px 22px;
+    border-radius: 28px;
   }
 
-  .cards {
-    width: 100%;
+  .glass-hero .feature-grid {
+    display: grid;
     grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  .course-card {
+  .mini-feature {
     width: 100%;
+    min-height: auto;
   }
 
   .hero-visual {
     display: none !important;
   }
+
+  .cards {
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 18px;
+  }
+
+  .course-card {
+    width: 100%;
+    padding: 28px 22px;
+  }
+
+  .section-heading {
+    margin-top: 42px;
+  }
 }
 
 @media (max-width: 480px) {
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
   .glass-hero h1 {
-    font-size: 44px;
+    font-size: 42px;
+    line-height: 1;
   }
 
   .hero-subline {
-    font-size: 26px !important;
+    font-size: 25px !important;
+    line-height: 1.2 !important;
   }
 
-  .chart-header,
-  .chart-notes {
-    align-items: flex-start;
+  .hero-actions {
     flex-direction: column;
   }
 
-  .chart-glass-card {
-    padding: 18px;
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .course-card .btn {
+    width: 100%;
   }
 }
