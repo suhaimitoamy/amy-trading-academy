@@ -1,0 +1,449 @@
+/* ===== AMY TRADING ACADEMY — GLOBAL GLASS UI ===== */
+/* Safe cosmetic layer. Loaded by main.js on every page. */
+
+:root {
+  --glass-alpha: 0.66;
+  --glass-blur: 18px;
+  --glass-border-alpha: 0.42;
+  --glass-shine-alpha: 0.46;
+  --glass-bg: rgba(255, 255, 255, var(--glass-alpha));
+  --glass-bg-soft: rgba(255, 255, 255, calc(var(--glass-alpha) - 0.12));
+  --glass-border: rgba(255, 255, 255, var(--glass-border-alpha));
+  --glass-shadow: 0 18px 60px rgba(var(--shadow-color), 0.10);
+  --glass-shadow-soft: 0 8px 32px rgba(var(--shadow-color), 0.08);
+}
+
+[data-theme="midnight-green"],
+[data-theme="black-gold"],
+[data-theme="forest-premium"],
+[data-theme="purple-focus"],
+[data-theme="dark-academy"],
+[data-theme="trading-desk"] {
+  --glass-bg: rgba(22, 28, 34, var(--glass-alpha));
+  --glass-bg-soft: rgba(22, 28, 34, calc(var(--glass-alpha) - 0.10));
+  --glass-border: rgba(255, 255, 255, calc(var(--glass-border-alpha) - 0.12));
+  --glass-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+  --glass-shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.22);
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% 8%, var(--accent-soft) 0, transparent 28%),
+    radial-gradient(circle at 88% 12%, var(--gold-soft) 0, transparent 24%),
+    radial-gradient(circle at 50% 95%, rgba(59, 130, 246, 0.10) 0, transparent 32%),
+    var(--bg);
+}
+
+.topbar,
+.hero-card,
+.course-card,
+.panel,
+.article,
+.toc-card,
+.login-card,
+.theme-panel,
+.mini-feature,
+.chapter-row,
+.note,
+.warning,
+.tip,
+.prompt-box,
+.image-slot-placeholder {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow-soft);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.course-card,
+.panel,
+.article,
+.toc-card,
+.login-card,
+.theme-panel,
+.hero-card {
+  box-shadow: var(--glass-shadow);
+}
+
+.btn:not(.primary):not(.gold),
+.theme-toggle,
+.theme-option {
+  background: var(--glass-bg-soft);
+  border-color: var(--glass-border);
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.7));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.7));
+}
+
+.glass-hero {
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  align-items: center;
+  gap: 28px;
+  min-height: 560px;
+  position: relative;
+}
+
+.glass-hero::before,
+.glass-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(4px);
+  opacity: 0.65;
+  z-index: -1;
+}
+
+.glass-hero::before {
+  width: 280px;
+  height: 280px;
+  left: -90px;
+  top: 20px;
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+}
+
+.glass-hero::after {
+  width: 320px;
+  height: 320px;
+  right: -120px;
+  bottom: 10px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 70%);
+}
+
+.glass-hero .hero-card {
+  padding: 58px 50px;
+}
+
+.glass-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-bg-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.glass-badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 18px var(--accent);
+}
+
+.glass-hero h1 {
+  font-family: var(--font-body);
+  font-size: clamp(46px, 7vw, 82px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+}
+
+.glass-hero h1 span {
+  color: var(--accent);
+}
+
+.hero-subline {
+  color: var(--heading) !important;
+  font-size: clamp(26px, 3.2vw, 40px) !important;
+  font-weight: 800;
+  line-height: 1.18 !important;
+  margin: 0 0 18px;
+}
+
+.hero-subline::first-line {
+  color: var(--heading);
+}
+
+.glass-hero .feature-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.hero-visual.side-preview {
+  display: block !important;
+}
+
+.hero-visual {
+  min-height: 470px;
+  position: relative;
+  isolation: isolate;
+}
+
+.chart-glass-card {
+  position: relative;
+  z-index: 2;
+  min-height: 430px;
+  padding: 24px;
+  border-radius: 32px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  overflow: hidden;
+}
+
+.chart-glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,var(--glass-shine-alpha)), transparent 38%, rgba(255,255,255,0.10));
+  pointer-events: none;
+}
+
+.chart-header,
+.chart-notes {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.chart-header strong {
+  display: block;
+  color: var(--heading);
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.chart-kicker,
+.chart-pill,
+.chart-notes span,
+.floating-glass-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chart-pill,
+.chart-notes span {
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.chart-stage {
+  position: relative;
+  z-index: 2;
+  height: 260px;
+  margin: 34px 0 24px;
+  border-radius: 24px;
+  background:
+    linear-gradient(90deg, rgba(100,116,139,0.10) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(100,116,139,0.10) 1px, transparent 1px),
+    linear-gradient(135deg, var(--glass-bg-soft), transparent);
+  background-size: 44px 44px, 44px 44px, auto;
+  border: 1px solid var(--glass-border);
+  overflow: hidden;
+}
+
+.grid-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(100, 116, 139, 0.12);
+}
+
+.line-1 { top: 25%; }
+.line-2 { top: 50%; }
+.line-3 { top: 75%; }
+
+.candle {
+  position: absolute;
+  bottom: 48px;
+  width: 16px;
+  border-radius: 5px;
+  background: var(--accent);
+  box-shadow: 0 0 20px rgba(var(--shadow-color), 0.12);
+}
+
+.candle span {
+  position: absolute;
+  left: 50%;
+  top: -24px;
+  bottom: -24px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.candle.up { color: var(--accent); background: linear-gradient(180deg, var(--accent), var(--accent-hover)); }
+.candle.down { color: #3B82F6; background: linear-gradient(180deg, #60A5FA, #3B82F6); }
+.c1 { left: 12%; height: 66px; }
+.c2 { left: 24%; height: 104px; bottom: 72px; }
+.c3 { left: 36%; height: 72px; bottom: 68px; }
+.c4 { left: 48%; height: 132px; bottom: 88px; }
+.c5 { left: 60%; height: 78px; bottom: 92px; }
+.c6 { left: 72%; height: 148px; bottom: 106px; }
+.c7 { left: 84%; height: 120px; bottom: 128px; }
+
+.chart-curve {
+  position: absolute;
+  inset: 34px 18px 18px;
+  width: calc(100% - 36px);
+  height: calc(100% - 52px);
+  overflow: visible;
+}
+
+.chart-curve path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.72;
+  filter: drop-shadow(0 0 12px var(--accent-soft));
+}
+
+.chart-notes {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.floating-glass-card {
+  position: absolute;
+  z-index: 3;
+  width: 170px;
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-soft);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.floating-glass-card strong {
+  display: block;
+  color: var(--heading);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.mini-chart-card {
+  left: -18px;
+  bottom: 34px;
+}
+
+.mini-risk-card {
+  right: -12px;
+  top: 70px;
+}
+
+.glass-orb {
+  position: absolute;
+  border-radius: 999px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.72;
+}
+
+.orb-one {
+  width: 150px;
+  height: 150px;
+  left: -34px;
+  top: 22px;
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+}
+
+.orb-two {
+  width: 190px;
+  height: 190px;
+  right: -44px;
+  bottom: 12px;
+  background: radial-gradient(circle, var(--gold-soft), transparent 68%);
+}
+
+.glass-control {
+  border-top: 1px solid var(--border);
+  margin-top: 18px;
+  padding-top: 18px;
+}
+
+.glass-control label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.glass-control input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.glass-control small {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .glass-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .glass-hero .hero-card {
+    padding: 38px 24px;
+  }
+
+  .glass-hero .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    min-height: 390px;
+  }
+
+  .chart-glass-card {
+    min-height: 370px;
+  }
+
+  .chart-stage {
+    height: 220px;
+  }
+
+  .floating-glass-card {
+    position: relative;
+    inset: auto;
+    display: inline-block;
+    margin: 12px 8px 0 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .glass-hero h1 {
+    font-size: 44px;
+  }
+
+  .hero-subline {
+    font-size: 26px !important;
+  }
+
+  .chart-header,
+  .chart-notes {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .chart-glass-card {
+    padding: 18px;
+  }
+}
