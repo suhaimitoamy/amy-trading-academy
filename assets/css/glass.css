@@ -3,7 +3,7 @@
 
 :root {
   --glass-alpha: 0.66;
-  --glass-blur: 18px;
+  --glass-blur: 6px;
   --glass-border-alpha: 0.42;
   --glass-shine-alpha: 0.46;
   --glass-bg: rgba(255, 255, 255, var(--glass-alpha));
@@ -41,7 +41,14 @@ body {
 .article,
 .toc-card,
 .login-card,
-.theme-panel,
+.theme-panel {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow-soft);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
 .mini-feature,
 .chapter-row,
 .note,
@@ -52,8 +59,6 @@ body {
   background: var(--glass-bg);
   border-color: var(--glass-border);
   box-shadow: var(--glass-shadow-soft);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
 .course-card,
@@ -89,7 +94,6 @@ body {
   position: absolute;
   border-radius: 999px;
   pointer-events: none;
-  filter: blur(4px);
   opacity: 0.65;
   z-index: -1;
 }
