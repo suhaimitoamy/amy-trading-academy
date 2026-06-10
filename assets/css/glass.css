@@ -32,6 +32,7 @@ body {
     radial-gradient(circle at 88% 12%, var(--gold-soft) 0, transparent 24%),
     radial-gradient(circle at 50% 95%, rgba(59, 130, 246, 0.10) 0, transparent 32%),
     var(--bg);
+  background-attachment: fixed;
 }
 
 .topbar,
