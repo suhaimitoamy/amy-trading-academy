@@ -4,119 +4,107 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>Beranda — Amy Trading Academy</title>
+  <title>Beranda — Amy Trading Academy — Amy Trading Academy</title>
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/glass.css">
   <script>const ROOT_PATH='';</script>
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
-  <script>requireLogin();</script>
-  <header class="topbar hide-until-auth">
-    <nav class="nav">
-      <a class="brand" href="index.html"><span class="brand-mark">A</span><span>Amy Trading Academy</span></a>
-      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-      <div class="navlinks" id="navlinks">
-        <a href="index.html">Beranda</a>
-        <a href="daftar-materi.html">Daftar Materi</a>
-        <a href="tentang.html">Tentang</a>
-        <a href="glosarium/index.html">Glosarium</a>
-        <button class="btn ghost" onclick="logout()">Keluar</button>
+<script>requireLogin();</script>
+<header class="topbar hide-until-auth">
+  <nav class="nav">
+    <a class="brand" href="index.html"><span class="brand-mark">A</span><span>Amy Trading Academy</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="navlinks" id="navlinks">
+      <a href="index.html">Beranda</a>
+      <a href="daftar-materi.html">Daftar Materi</a>
+      <a href="tentang.html">Tentang</a>
+      <a href="glosarium/index.html">Glosarium</a>
+      <button class="btn ghost" onclick="logout()">Keluar</button>
+    </div>
+  </nav>
+</header>
+<main class="container hide-until-auth">
+  <section class="hero glass-hero">
+    <div class="hero-card">
+      <div class="eyebrow glass-badge">Welcome To Amy Trading Academy</div>
+      <h1><span>Hi,</span> I'm Amy</h1>
+      <p class="hero-subline">Learn Smart.<br>Trade Better.<br>Build Financial Freedom.</p>
+      <p>Amy Trading Academy membantu kamu memahami trading dari nol sampai advanced execution dengan materi terstruktur, bahasa sederhana, dan latihan membaca market secara bertahap.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="daftar-materi.html">Mulai Belajar</a>
+        <a class="btn" href="#advanced-lanjutan">Materi Advanced</a>
       </div>
-    </nav>
-  </header>
-
-  <main class="container hide-until-auth">
-    <section class="hero glass-hero">
-      <div class="hero-card">
-        <div class="eyebrow glass-badge">Welcome To Amy Trading Academy</div>
-        <h1><span>Hi,</span> I'm Amy</h1>
-        <p class="hero-subline">Learn Smart.<br>Trade Better.<br>Build Financial Freedom.</p>
-        <p>Amy Trading Academy membantu kamu memahami trading dari nol sampai advanced execution dengan materi terstruktur, bahasa sederhana, dan latihan membaca market secara bertahap.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="daftar-materi.html">Mulai Belajar</a>
-          <a class="btn" href="#advanced-lanjutan">Materi Advanced</a>
-        </div>
-        <div class="feature-grid">
-          <div class="mini-feature"><div class="feat-icon">📚</div><strong>Terstruktur</strong><span>30 bagian dari pemula sampai eksekusi advanced.</span></div>
-          <div class="mini-feature"><div class="feat-icon">🛡️</div><strong>Risk First</strong><span>Belajar konsep tanpa klaim profit pasti.</span></div>
-          <div class="mini-feature"><div class="feat-icon">🎯</div><strong>Execution Focus</strong><span>FVG, OB, liquidity, IDM, IFVG, dan no-trade logic.</span></div>
-        </div>
-      </div>
-      <aside class="side-preview hero-visual" aria-label="Preview edukasi chart">
-        <div class="glass-orb orb-one"></div><div class="glass-orb orb-two"></div>
-        <div class="chart-glass-card">
-          <div class="chart-header"><div><span class="chart-kicker">Education Preview</span><strong>Market Structure</strong></div><span class="chart-pill">Step by Step</span></div>
-          <div class="chart-stage">
-            <div class="grid-line line-1"></div><div class="grid-line line-2"></div><div class="grid-line line-3"></div>
-            <div class="candle up c1"><span></span></div><div class="candle up c2"><span></span></div><div class="candle down c3"><span></span></div><div class="candle up c4"><span></span></div><div class="candle down c5"><span></span></div><div class="candle up c6"><span></span></div><div class="candle up c7"><span></span></div>
-            <svg class="chart-curve" viewBox="0 0 360 180" aria-hidden="true"><path d="M24 135 C70 116 93 82 137 94 C181 106 191 61 232 65 C281 70 294 38 337 30" /></svg>
-          </div>
-          <div class="chart-notes"><span>Bias jelas</span><span>Risk terukur</span><span>Advanced entry</span></div>
-        </div>
-        <div class="floating-glass-card mini-chart-card"><span>30 Bagian</span><strong>Nol → Advanced</strong></div>
-        <div class="floating-glass-card mini-risk-card"><span>Focus</span><strong>Risk First</strong></div>
-      </aside>
-    </section>
-
-    <div id="lanjutBelajarContainer" class="hide-until-auth" style="margin-top: -16px; margin-bottom: 32px; display: none;">
-      <div class="course-card" style="padding: 24px; background: var(--accent-soft); border-color: var(--accent);">
-        <div class="num" style="color: var(--accent);">Lanjut Belajar</div>
-        <h3 id="lanjutBelajarTitle" style="margin: 8px 0; font-size: 18px;">Mulai dari Bagian 01 — Pemula Nol</h3>
-        <a id="lanjutBelajarBtn" class="btn primary" href="bagian-01-pemula-nol/index.html" style="margin-top: 12px; width: fit-content;">Lanjutkan →</a>
+      <div class="feature-grid">
+        <div class="mini-feature"><div class="feat-icon">📚</div><strong>Terstruktur</strong><span>30 bagian dari pemula sampai eksekusi advanced.</span></div>
+        <div class="mini-feature"><div class="feat-icon">🛡️</div><strong>Risk First</strong><span>Belajar konsep tanpa klaim profit pasti.</span></div>
+        <div class="mini-feature"><div class="feat-icon">🎯</div><strong>Execution Focus</strong><span>Liquidity, FVG, OB, IFVG, session, dan no-trade logic.</span></div>
       </div>
     </div>
+    <aside class="side-preview hero-visual" aria-label="Preview edukasi chart">
+      <div class="chart-glass-card">
+        <div class="chart-header"><div><span class="chart-kicker">Education Preview</span><strong>Market Structure</strong></div><span class="chart-pill">Step by Step</span></div>
+        <div class="chart-stage">
+          <div class="grid-line line-1"></div><div class="grid-line line-2"></div><div class="grid-line line-3"></div>
+          <div class="candle up c1"><span></span></div><div class="candle up c2"><span></span></div><div class="candle down c3"><span></span></div><div class="candle up c4"><span></span></div><div class="candle down c5"><span></span></div><div class="candle up c6"><span></span></div><div class="candle up c7"><span></span></div>
+          <svg class="chart-curve" viewBox="0 0 360 180" aria-hidden="true"><path d="M24 135 C70 116 93 82 137 94 C181 106 191 61 232 65 C281 70 294 38 337 30" /></svg>
+        </div>
+        <div class="chart-notes"><span>Bias jelas</span><span>Risk terukur</span><span>Advanced entry</span></div>
+      </div>
+    </aside>
+  </section>
 
-    <section class="section-heading">
-      <div class="eyebrow">Daftar Isi</div>
-      <h2>30 Bagian Utama</h2>
-      <p>Klik bagian di bawah ini untuk melihat modul pembelajaran secara bertahap.</p>
-    </section>
+  <div id="lanjutBelajarContainer" class="hide-until-auth" style="margin-top: -16px; margin-bottom: 32px; display: none;">
+    <div class="course-card" style="padding: 24px; background: var(--accent-soft); border-color: var(--accent);">
+      <div class="num" style="color: var(--accent);">Lanjut Belajar</div>
+      <h3 id="lanjutBelajarTitle" style="margin: 8px 0; font-size: 18px;">Mulai dari Bagian 01 — Pemula Nol</h3>
+      <a id="lanjutBelajarBtn" class="btn primary" href="bagian-01-pemula-nol/index.html" style="margin-top: 12px; width: fit-content;">Lanjutkan →</a>
+    </div>
+  </div>
 
-    <section class="cards">
-      <article class="course-card"><div class="num">Bagian 01</div><h3>Pemula Nol</h3><p>Fondasi awal untuk benar-benar paham trading sebelum masuk strategi.</p><a class="btn" href="bagian-01-pemula-nol/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 02</div><h3>Membaca Chart</h3><p>Belajar membaca chart, candle, timeframe, trend, dan struktur market.</p><a class="btn" href="bagian-02-membaca-chart/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 03</div><h3>Fondasi Market</h3><p>Memahami cara harga bergerak dari consolidation sampai displacement.</p><a class="btn" href="bagian-03-fondasi-market/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 04</div><h3>Liquidity</h3><p>Belajar liquidity sebagai bahan bakar utama pergerakan harga.</p><a class="btn" href="bagian-04-liquidity/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 05</div><h3>Smart Money Concept</h3><p>Konsep Smart Money: FVG, OB, PD Array, premium-discount, dan block penting.</p><a class="btn" href="bagian-05-smart-money-concept/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 06</div><h3>ICT Core</h3><p>Inti ICT: context, delivery, CISD, MSS, dan kombinasi entry area.</p><a class="btn" href="bagian-06-ict-core/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 07</div><h3>Bias dan Top Down</h3><p>Cara membangun bias harian dan top-down analysis sebelum entry.</p><a class="btn" href="bagian-07-bias-dan-top-down/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 08</div><h3>Session dan Waktu</h3><p>Session, killzone, NYMO, weekly profile, dan ritme waktu market.</p><a class="btn" href="bagian-08-session-dan-waktu/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 09</div><h3>Entry Model</h3><p>Model entry dari liquidity grab sampai SL/TP berbasis struktur.</p><a class="btn" href="bagian-09-entry-model/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 10</div><h3>XAUUSD Playbook</h3><p>Playbook khusus Gold/XAUUSD untuk membaca peluang harian.</p><a class="btn" href="bagian-10-xauusd-playbook/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 11</div><h3>Advanced ICT</h3><p>Konsep advanced seperti MMXM, STDV, SMT, dan Unicorn Model.</p><a class="btn" href="bagian-11-advanced-ict/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 12</div><h3>Risk Management</h3><p>Money management, risk per trade, lot, daily limit, dan aturan bertahan.</p><a class="btn" href="bagian-12-risk-management/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 13</div><h3>Psikologi Trading</h3><p>Psikologi trading: FOMO, revenge, disiplin, sabar, dan menerima loss.</p><a class="btn" href="bagian-13-psikologi-trading/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 14</div><h3>Backtesting dan Jurnal</h3><p>Backtesting, forward testing, jurnal, review, dan evaluasi sistem.</p><a class="btn" href="bagian-14-backtesting-dan-jurnal/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 15</div><h3>Menjadi Trader Mandiri</h3><p>Menyusun trading plan, playbook pribadi, rutinitas, dan roadmap live trading.</p><a class="btn" href="bagian-15-menjadi-trader-mandiri/index.html">Buka Materi →</a></article>
-    </section>
+  <section class="section-heading">
+    <div class="eyebrow">Daftar Isi</div>
+    <h2>Bagian 01–15 — Fondasi sampai Mandiri</h2>
+    <p>Bagian dasar sampai menengah: chart, liquidity, SMC, ICT, XAUUSD, risk, psikologi, backtesting, dan trading plan.</p>
+  </section>
+  <section class="cards"><article class="course-card"><div class="num">Bagian 01</div><h3>Pemula Nol</h3><p>Fondasi awal untuk benar-benar paham trading sebelum masuk strategi.</p><a class="btn" href="bagian-01-pemula-nol/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 02</div><h3>Membaca Chart</h3><p>Chart, candle, timeframe, trend, dan struktur market.</p><a class="btn" href="bagian-02-membaca-chart/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 03</div><h3>Fondasi Market</h3><p>Cara harga bergerak dari consolidation sampai displacement.</p><a class="btn" href="bagian-03-fondasi-market/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 04</div><h3>Liquidity</h3><p>Liquidity sebagai bahan bakar utama pergerakan harga.</p><a class="btn" href="bagian-04-liquidity/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 05</div><h3>Smart Money Concept</h3><p>FVG, OB, PD Array, premium-discount, dan block penting.</p><a class="btn" href="bagian-05-smart-money-concept/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 06</div><h3>ICT Core</h3><p>Context, delivery, CISD, MSS, dan kombinasi entry area.</p><a class="btn" href="bagian-06-ict-core/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 07</div><h3>Bias dan Top Down</h3><p>Cara membangun bias harian dan top-down analysis.</p><a class="btn" href="bagian-07-bias-dan-top-down/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 08</div><h3>Session dan Waktu</h3><p>Session, killzone, NYMO, weekly profile, dan ritme market.</p><a class="btn" href="bagian-08-session-dan-waktu/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 09</div><h3>Entry Model</h3><p>Model entry dari liquidity grab sampai SL/TP berbasis struktur.</p><a class="btn" href="bagian-09-entry-model/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 10</div><h3>XAUUSD Playbook</h3><p>Playbook Gold/XAUUSD untuk membaca peluang harian.</p><a class="btn" href="bagian-10-xauusd-playbook/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 11</div><h3>Advanced ICT</h3><p>MMXM, STDV, SMT, Unicorn Model, dan model lanjutan.</p><a class="btn" href="bagian-11-advanced-ict/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 12</div><h3>Risk Management</h3><p>Money management, risk per trade, lot, daily limit, dan survival.</p><a class="btn" href="bagian-12-risk-management/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 13</div><h3>Psikologi Trading</h3><p>FOMO, revenge, disiplin, sabar, dan menerima loss.</p><a class="btn" href="bagian-13-psikologi-trading/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 14</div><h3>Backtesting dan Jurnal</h3><p>Backtesting, forward testing, jurnal, review, dan evaluasi sistem.</p><a class="btn" href="bagian-14-backtesting-dan-jurnal/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 15</div><h3>Menjadi Trader Mandiri</h3><p>Trading plan, playbook pribadi, rutinitas, dan roadmap live trading.</p><a class="btn" href="bagian-15-menjadi-trader-mandiri/index.html">Buka Materi →</a></article></section>
 
-    <section class="section-heading" id="advanced-lanjutan">
-      <div class="eyebrow">Materi Lanjutan</div>
-      <h2>Bagian 16–30 — Advanced Execution</h2>
-      <p>Materi lanjutan untuk entry logic, FVG, OB, liquidity, IDM, IFVG, session, XAUUSD, trade management, backtest, dan setup library.</p>
-    </section>
-
-    <section class="cards">
-      <article class="course-card"><div class="num">Bagian 16</div><h3>Advanced Entry Logic</h3><p>Urutan berpikir sebelum entry: bias, sweep, displacement, POI, timing, dan risk-reward.</p><a class="btn" href="bagian-16-advanced-entry-logic/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 17</div><h3>FVG Masterclass</h3><p>FVG kuat vs lemah, CE, full fill, IFVG, dan kapan FVG lebih kuat dari OB.</p><a class="btn" href="bagian-17-fvg-masterclass/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 18</div><h3>Order Block Masterclass</h3><p>OB valid vs palsu, mitigated, body vs wick, OB trap, dan OB A+.</p><a class="btn" href="bagian-18-order-block-masterclass/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 19</div><h3>Liquidity Masterclass</h3><p>Liquidity sebagai target, trigger, sweep vs run, internal dan external liquidity.</p><a class="btn" href="bagian-19-liquidity-masterclass/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 20</div><h3>IDM / Inducement</h3><p>IDM sebelum BOS, entry setelah IDM tersapu, dan cara menghindari entry terlalu awal.</p><a class="btn" href="bagian-20-idm-inducement-masterclass/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 21</div><h3>IFVG / Inversion Model</h3><p>FVG gagal, area berubah fungsi, retest IFVG, dan kombinasi IFVG + breaker.</p><a class="btn" href="bagian-21-ifvg-inversion-model/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 22</div><h3>Block Advanced</h3><p>Breaker, mitigation, rejection, propulsion block, dan block stacking.</p><a class="btn" href="bagian-22-block-advanced/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 23</div><h3>Premium Discount Advanced</h3><p>Dealing range yang benar, HTF/LTF range, OTE, equilibrium trap, dan POI selection.</p><a class="btn" href="bagian-23-premium-discount-advanced/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 24</div><h3>Market Structure Advanced</h3><p>BOS valid, CHoCH, MSS, CISD, displacement, internal dan external structure.</p><a class="btn" href="bagian-24-market-structure-advanced/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 25</div><h3>Session Entry Model</h3><p>Asia range, London manipulation, New York distribution, Judas swing, dan killzone entry.</p><a class="btn" href="bagian-25-session-entry-model/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 26</div><h3>XAUUSD Advanced Playbook</h3><p>Karakter Gold per sesi, news, liquidity map, dan model harian XAUUSD.</p><a class="btn" href="bagian-26-xauusd-advanced-playbook/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 27</div><h3>No Trade Advanced</h3><p>POI bagus tapi tidak entry, timing salah, RR rusak, candle extended, dan setup hampir valid.</p><a class="btn" href="bagian-27-no-trade-advanced/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 28</div><h3>Trade Management Advanced</h3><p>Partial TP, BE, hold, close manual, scaling in, scaling out, dan mengelola open profit.</p><a class="btn" href="bagian-28-trade-management-advanced/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 29</div><h3>Backtest Advanced</h3><p>Backtest per model, valid/invalid setup, screenshot journal, expectancy, dan review mingguan.</p><a class="btn" href="bagian-29-backtest-advanced/index.html">Buka Materi →</a></article>
-      <article class="course-card"><div class="num">Bagian 30</div><h3>A+ Setup Library</h3><p>Library setup A+ untuk FVG, OB, liquidity, IDM, IFVG, session, dan no-trade example.</p><a class="btn" href="bagian-30-a-plus-setup-library/index.html">Buka Materi →</a></article>
-    </section>
-  </main>
-
-  <footer class="footer hide-until-auth">© 2026 Amy Trading Academy. Belajar Trading dari Nol sampai Mandiri.</footer>
+  <section class="section-heading" id="advanced-lanjutan">
+    <div class="eyebrow">Materi Lanjutan</div>
+    <h2>Bagian 16–30 — Advanced Execution & Model Library</h2>
+    <p>Materi lanjutan berisi model, validasi, session timing, trade management, dan A+ setup library tanpa mengulang fondasi 1–15.</p>
+  </section>
+  <section class="cards"><article class="course-card"><div class="num">Bagian 16</div><h3>Advanced Market Structure Reading</h3><p>Membaca structure lanjutan: minor/major swing, valid MSS, complex pullback, dan kapan structure tidak layak dijadikan alasan entry.</p><a class="btn" href="bagian-16-advanced-entry-logic/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 17</div><h3>Advanced Liquidity Mapping</h3><p>Memetakan liquidity dari HTF sampai LTF, menentukan draw on liquidity, dan membedakan liquidity yang layak dikejar dengan yang hanya noise.</p><a class="btn" href="bagian-17-fvg-masterclass/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 18</div><h3>Advanced Sweep &amp; Delivery Model</h3><p>Membaca sweep, grab, run, displacement, CISD, dan delivery sequence sebagai satu alur, bukan sinyal yang berdiri sendiri.</p><a class="btn" href="bagian-18-order-block-masterclass/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 19</div><h3>POI Selection Masterclass</h3><p>Cara memilih POI yang paling layak: POI utama, POI sekunder, POI tumpang tindih, dan kapan POI harus diabaikan.</p><a class="btn" href="bagian-19-liquidity-masterclass/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 20</div><h3>FVG, OB, CE, IFVG Decision Model</h3><p>Model keputusan untuk memilih FVG, OB, CE, IFVG, breaker, atau tidak entry sama sekali.</p><a class="btn" href="bagian-20-idm-inducement-masterclass/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 21</div><h3>Session Timing Advanced</h3><p>Membaca karakter Asia, London, dan New York secara advanced: reversal, continuation, trap, dan session transition.</p><a class="btn" href="bagian-21-ifvg-inversion-model/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 22</div><h3>Daily Bias &amp; Weekly Profile Advanced</h3><p>Menghubungkan daily bias, weekly profile, PDH/PDL, OHLC/OLHC, dan draw on liquidity harian.</p><a class="btn" href="bagian-22-block-advanced/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 23</div><h3>ICT Macro &amp; Silver Bullet Model</h3><p>Menggunakan macro time window dan Silver Bullet sebagai model waktu, bukan sekadar pola entry.</p><a class="btn" href="bagian-23-premium-discount-advanced/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 24</div><h3>Opening Gap Model</h3><p>Membaca NDOG, NWOG, opening gap, gap fill, dan gap sebagai draw atau POI dalam konteks ICT.</p><a class="btn" href="bagian-24-market-structure-advanced/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 25</div><h3>Turtle Soup &amp; Smart Money Reversal</h3><p>Model reversal setelah liquidity diambil: Turtle Soup, failed run, SMR, invalidation, dan target.</p><a class="btn" href="bagian-25-session-entry-model/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 26</div><h3>OTE &amp; Standard Deviation Targeting</h3><p>Memakai OTE, premium/discount, Fibonacci ICT, dan STDV projection untuk entry dan target yang lebih rapi.</p><a class="btn" href="bagian-26-xauusd-advanced-playbook/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 27</div><h3>Intermarket &amp; SMT Confirmation</h3><p>Menggunakan SMT, DXY, dan intermarket sebagai konfirmasi tambahan, bukan alasan entry utama.</p><a class="btn" href="bagian-27-no-trade-advanced/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 28</div><h3>Advanced Entry Workflow</h3><p>Alur lengkap dari validasi setup, trigger, entry, invalidation, target, no-chase, dan review setelah entry.</p><a class="btn" href="bagian-28-trade-management-advanced/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 29</div><h3>Trade Management Advanced</h3><p>Mengelola trade setelah entry: partial, hold, move SL, BE trap, scale-out, re-entry, dan exit objektif.</p><a class="btn" href="bagian-29-backtest-advanced/index.html">Buka Materi →</a></article>
+<article class="course-card"><div class="num">Bagian 30</div><h3>A+ Setup Library &amp; Full Checklist</h3><p>Library setup final: A+ FVG, OB, IFVG, Turtle Soup, Silver Bullet, no-trade example, dan checklist lengkap sebelum entry.</p><a class="btn" href="bagian-30-a-plus-setup-library/index.html">Buka Materi →</a></article></section>
+</main>
+<footer class="footer hide-until-auth">© 2026 Amy Trading Academy. Belajar Trading dari Nol sampai Mandiri.</footer>
 </body>
 </html>

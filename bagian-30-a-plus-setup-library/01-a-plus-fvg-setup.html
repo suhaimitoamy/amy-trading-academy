@@ -11,97 +11,100 @@
   <script src="../assets/js/main.js" defer></script>
 </head>
 <body>
-  <script>requireLogin();</script>
-  <header class="topbar hide-until-auth">
-    <nav class="nav">
-      <a class="brand" href="../index.html"><span class="brand-mark">A</span><span>Amy Trading Academy</span></a>
-      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-      <div class="navlinks" id="navlinks">
-        <a href="../index.html">Beranda</a>
-        <a href="../daftar-materi.html">Daftar Materi</a>
-        <a href="../tentang.html">Tentang</a>
-        <a href="../glosarium/index.html">Glosarium</a>
-        <button class="btn ghost" onclick="logout()">Keluar</button>
-      </div>
-    </nav>
-  </header>
-  <main class="container hide-until-auth">
-    <div class="article-layout">
-      <article class="article">
-        <div class="breadcrumb"><a href="../index.html">Beranda</a> › <a href="index.html">Bagian 30 — A+ Setup Library</a></div>
-        <div class="eyebrow">Bagian 30 — A+ Setup Library</div>
-        <h1>A+ FVG Setup</h1>
-        
-        <p>Selamat datang di materi <strong>A+ FVG Setup</strong>. Pembahasan ini adalah bagian dari koleksi setup tingkat probabilitas tinggi (High Probability) di dalam <strong>A+ Setup Library</strong> kita. Konsep utama di balik setup ini bertumpu pada mekanika market inti dari Smart Money Concepts (SMC) dan Inner Circle Trader (ICT) yang menyoroti inefisiensi pergerakan harga akibat masuknya volume besar dari institusi atau <em>smart money</em>. Di materi ini, kita akan mengupas tuntas apa itu FVG yang berkelas A+, dan mengapa Anda tidak boleh sembarangan memilih FVG di chart.</p>
+<script>requireLogin();</script>
+<header class="topbar hide-until-auth">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="brand-mark">A</span><span>Amy Trading Academy</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="navlinks" id="navlinks">
+      <a href="../index.html">Beranda</a>
+      <a href="../daftar-materi.html">Daftar Materi</a>
+      <a href="../tentang.html">Tentang</a>
+      <a href="../glosarium/index.html">Glosarium</a>
+      <button class="btn ghost" onclick="logout()">Keluar</button>
+    </div>
+  </nav>
+</header>
+<main class="container hide-until-auth">
+  <div class="article-layout">
+    <article class="article">
+      <div class="breadcrumb"><a href="../index.html">Beranda</a> › <a href="index.html">Bagian 30 — A+ Setup Library &amp; Full Checklist</a></div>
+      <div class="eyebrow">Bagian 30 — A+ Setup Library &amp; Full Checklist</div>
+      <h1>A+ FVG Setup</h1>
+      
+        <p>Di level advanced, kita tidak lagi belajar istilah dari nol. Kamu sudah melewati fondasi 1–15, jadi halaman ini fokus ke <strong>setup FVG berkualitas tinggi dengan HTF bias, sweep, displacement, dan target jelas</strong>. Tujuannya sederhana: kamu tidak cuma tahu nama konsepnya, tapi bisa memutuskan apakah konsep itu layak dipakai untuk entry atau harus diabaikan.</p>
+        <p><strong>A+ FVG Setup</strong> dipakai untuk menyaring chart. Kalau semua hal dianggap setup, akhirnya kamu akan overtrade. Tapi kalau kamu punya aturan baca yang jelas, market jadi lebih mudah dipilah: mana yang A+, mana yang biasa saja, dan mana yang sebaiknya dilewati.</p>
 
-        <h2>Apa Itu Fair Value Gap (FVG)?</h2>
-        <p>Sebelum kita mendalami kategori "A+", mari kita ingat kembali definisi dasar dari Fair Value Gap. FVG adalah inefisiensi harga (juga sering disebut sebagai <em>imbalance</em>) yang terjadi akibat pergerakan harga yang terlalu cepat, agresif, dan satu arah. Pergerakan ini menciptakan "lubang" di mana hanya pesanan beli (dalam kasus <em>Bullish FVG</em>) atau pesanan jual (dalam kasus <em>Bearish FVG</em>) yang tereksekusi tanpa perlawanan wajar.</p>
-        <p>Bayangkan sebuah pasar tradisional di mana tiba-tiba ada satu pembeli super kaya yang langsung memborong semua beras di lapak dari harga terendah hingga harga tertinggi dalam hitungan detik. Penjual di harga tengah tidak sempat menyesuaikan penawaran mereka. Lubang harga inilah yang di chart terlihat sebagai celah di antara tiga candle berturut-turut, yaitu ruang kosong antara sumbu (wick) candle pertama dan sumbu candle ketiga. Secara mekanika pasar, algoritma penggerak harga (Interbank Price Delivery Algorithm atau IPDA) di-program untuk sering kali kembali (<em>re-price</em> atau <em>rebalance</em>) ke area kosong ini untuk mengambil pesanan yang tertinggal sebelum melanjutkan pergerakan utamanya.</p>
+        <div class="image-slot" data-img-path="assets/images/lessons/30-a-fvg-setup.jpg" data-prompt="Buat ilustrasi edukasi trading untuk materi 'A+ FVG Setup' dari 'Bagian 30 — A+ Setup Library &amp; Full Checklist', gaya clean light website, rasio 16:9, warna putih, hijau lembut, biru lembut, sedikit aksen gold. Tampilkan chart sederhana, area liquidity, POI, candle displacement, dan checklist trading. Jangan gunakan klaim profit pasti. Cocok untuk website Amy Trading Academy." data-caption="Ilustrasi A+ FVG Setup"></div>
 
-        <h2>Mengapa Tidak Semua FVG Adalah A+?</h2>
-        <p>Salah satu kesalahan fatal yang paling sering dilakukan trader pemula yang baru belajar SMC/ICT adalah memperlakukan <strong>semua</strong> FVG sebagai area untuk open posisi (entry). Jika Anda mengamati chart di timeframe kecil, seperti timeframe 1 menit atau 3 menit, Anda akan menemukan puluhan FVG dalam satu sesi trading. Jika Anda melakukan order limit di semua FVG tersebut secara membabi buta, akun Anda pasti akan terkuras pelan-pelan karena banyak FVG yang pada akhirnya dijebol (diabaikan) oleh harga karena FVG tersebut tidak berada di lokasi strategis atau narasi yang benar.</p>
-        
-        <div class="warning"><strong>Penting:</strong> Fair Value Gap yang tidak didukung oleh narasi (bias) timeframe besar (Higher Timeframe) dan tidak terbentuk di waktu yang tepat, hanyalah sekadar "noise" atau godaan yang sengaja ditinggalkan untuk menjebak retail trader.</div>
-        
-        <p>Oleh karena itu, kita harus menyeleksi FVG dengan sangat ketat dan objektif. Di sinilah kriteria <strong>A+ FVG Setup</strong> masuk. Sebuah A+ Setup berarti tingkat probabilitas keberhasilannya sangat tinggi dan <em>Risk to Reward</em>-nya (R:R) sangat menguntungkan, sering kali memberikan rasio 1:3, 1:4 atau bahkan lebih.</p>
-
-        <h2>Anatomi dari A+ FVG Setup</h2>
-        <p>Agar sebuah FVG bisa dikategorikan sebagai Setup A+, FVG tersebut harus memenuhi kelima kriteria wajib di bawah ini secara bersamaan:</p>
-
-        <h3>1. Searah dengan Higher Timeframe (HTF) Narrative & Bias</h3>
-        <p>Sebuah Setup A+ tidak pernah muncul secara kebetulan atau berlawanan dengan arah arus besar dari institusi. Anda harus selalu memahami apa tujuan utama harga pada Timeframe Besar (seperti Daily atau 4H). Apakah harga sedang bergerak perlahan menuju ke Buy Side Liquidity (BSL) di HTF? Ataukah menuju ke Sell Side Liquidity (SSL)? Jika bias HTF adalah Bullish, maka FVG berkelas A+ adalah <em>Bullish FVG</em> yang terbentuk di timeframe yang lebih kecil (seperti 15M, 5M, atau 1M). Hindari mengambil FVG pembalikan arah (reversal) kecuali harga sudah benar-benar mencapai objektif akhirnya (Premium Array) di HTF.</p>
-
-        <h3>2. Terbentuk Setelah Liquidity Purge (Penyapuan Likuiditas)</h3>
-        <p>Ini adalah syarat mekanikal krusial yang membedakan FVG biasa dan FVG A+. Sebelum pergerakan yang menciptakan FVG tersebut tercipta, harga <strong>wajib</strong> menyapu area likuiditas penting. Ini bisa berupa penyapuan ke level <em>Previous Day High/Low</em> (PDH/PDL), <em>Session High/Low</em> (misal Asia High/Low), atau puncak yang terlihat sejajar (<em>Equal Highs/Lows</em>). Mengapa ini sangat esensial? Karena uang dari retail trader yang terkena Stop Loss di area likuiditas itulah yang dikumpulkan dan dijadikan "bahan bakar" (fuel) oleh institusi untuk memicu pergerakan arah sebaliknya. Tanpa penyapuan likuiditas, pergerakan tren tersebut kurang memiliki dorongan volume organik.</p>
-
-        <h3>3. Diiringi dengan Displacement yang Jelas dan Kuat</h3>
-        <p>Setelah likuiditas tersapu (Sweep), harga harus berbalik arah dengan sangat cepat, agresif, dan kuat. Pergerakan yang sangat bersemangat ini disebut sebagai <strong>Displacement</strong>. Displacement yang bagus ditandai dengan candle berukuran besar (<em>marubozu-like</em>), ekspansif, dan berurutan secara konsisten, lalu meninggalkan <em>Fair Value Gap</em> di belakangnya. Jika pergerakannya lambat, berlumpur, ragu-ragu, dan membentuk candle-candle berbadan kecil, itu bukanlah displacement sejati, melainkan hanya fluktuasi biasa. FVG yang dibentuk oleh pergerakan lemas seperti itu bukanlah Setup A+ dan sangat rawan untuk gagal.</p>
-
-        <h3>4. Adanya Market Structure Shift (MSS)</h3>
-        <p>Pergerakan Displacement tadi harus berujung pada pecahnya struktur pasar terakhir yang valid (<em>Market Structure Shift</em> atau terkadang disebut <em>Change of Character / ChoCh</em>). Pemecahan struktur ini adalah konfirmasi teknikal bahwa <em>smart money</em> benar-benar telah mengubah gigi dari satu arah ke arah yang berlawanan (berubah dari struktur buy ke sell, atau sebaliknya). FVG A+ biasanya terletak persis di dalam kaki pergerakan (<em>leg</em>) yang memecahkan struktur tersebut, yang mengukuhkan niat institusi untuk tidak membiarkan harga kembali ke titik awal.</p>
-
-        <h3>5. Berada di Zona Premium atau Discount yang Tepat</h3>
-        <p>Prinsip ekonomi dasar yang juga berlaku dalam Smart Money Concepts adalah: selalu membeli harga di saat murah (Discount) dan menjual harga di saat mahal (Premium). Gunakan alat Fibonacci Retracement (tanpa level aneh-aneh, cukup level 0, 0.5, dan 1) lalu tarik dari Swing Low ke Swing High (untuk skenario Bullish) atau sebaliknya. FVG yang valid untuk setup beli (Buy) <strong>wajib</strong> berada di area Discount (di bawah level 0.5 atau 50%). FVG yang terbentuk di area Premium dalam tren Bullish sebaiknya dihindari karena Anda sedang memaksakan diri membeli di harga mahal, sehingga risikonya jauh lebih tinggi. Begitu juga sebaliknya untuk setup jual di mana Anda wajib mencari FVG di zona Premium.</p>
-
-        <h3>6. Waktu Eksekusi (Time of Day / Killzone)</h3>
-        <p>Trading berdasarkan konsep algoritma ICT sangat bertumpu pada unsur waktu. Algoritma IPDA tidak bekerja secara sembarangan sepanjang waktu, melainkan beroperasi secara optimal berdasarkan jadwal spesifik yang dikenal sebagai <em>Killzone</em> (seperti London Killzone, New York AM Killzone, dan New York PM Session). Setup FVG A+ paling ideal dieksekusi selama rentang jam-jam Killzone ini karena likuiditas dan volume transaksi institusional sedang pada tingkat puncaknya. FVG yang muncul di luar Killzone, misalnya di tengah sesi Sydney yang sering kali sempit dan tidak likuid, sangat rentan menjadi FVG jebakan (fake FVG) atau mengalami <em>whipsaw</em> (pergerakan bergelombang cepat tanpa arah yang jelas).</p>
-
-        <div class="note"><strong>Catatan Amy:</strong> Semakin banyak pertemuan konfirmasi (<em>confluence</em>), semakin kuat keabsahan setup tersebut. Jika FVG Setup A+ Anda ternyata juga sejajar (overlap) dengan blok institusional lain seperti Order Block (OB) atau Breaker Block, maka probabilitasnya meningkat drastis! Kombinasi FVG dan OB di dalam area Discount/Premium adalah eksekusi "Holy Grail" dan menjadi setup impian para trader berpengalaman.</div>
-
-        <h2>SOP dan Langkah-langkah Eksekusi A+ FVG Setup</h2>
-        <p>Bagaimana kita mengeksekusinya secara disiplin di live market? Ikuti standar operasional prosedur (SOP) eksekusi yang sangat ketat berikut ini, layaknya checklist seorang pilot sebelum lepas landas:</p>
+        <h2>Cara Membacanya di Chart</h2>
         <ol>
-            <li><strong>Tunggu dan Pantau (Wait and Monitor):</strong> Jangan lakukan apapun sampai harga menyapu (Sweep) likuiditas penting di area yang jelas (PDH/PDL atau Session High/Low). Anda harus bersabar bagaikan seorang <em>sniper</em> yang menanti target masuk ke jangkauan pandangnya. Tanpa sweep, tidak ada trade.</li>
-            <li><strong>Konfirmasi Displacement & MSS:</strong> Setelah sweep terjadi, jangan terburu-buru entry! Tunggu pembentukan candle secara utuh untuk menkonfirmasi bahwa itu hanyalah sapuan (sweep), bukan penembusan struktural (break of structure lanjutan). Cari pergerakan kuat berlawanan arah yang secara meyakinkan memecahkan Swing High/Low terdekat.</li>
-            <li><strong>Identifikasi FVG Secara Presisi:</strong> Fokus pada susunan 3 candle yang membentuk kaki Displacement tersebut. Tandai jarak antara sumbu (wick) bagian bawah candle pertama dan sumbu bagian atas candle ketiga (untuk Bearish). Inilah zona Fair Value Gap murni Anda.</li>
-            <li><strong>Validasi Zona Premium/Discount:</strong> Tarik Fibonacci dari ujung tertinggi ke terendah pergerakan Displacement tersebut. Pastikan FVG Anda berada di wilayah yang tepat (di atas level 50% untuk Sell, atau di bawah level 50% untuk Buy).</li>
-            <li><strong>Entry dan Pemasangan Stop Loss:</strong> Jika semua kriteria lulus, pasang Limit Order Anda (Buy Limit/Sell Limit) tepat di pintu masuk batas FVG tersebut (titik proksimal). Letakkan Stop Loss Anda secara aman dan konservatif di atas/bawah Swing High/Low utama yang menjadi pemicu sapuan likuiditas awal. Jangan pelit meletakkan Stop Loss tepat di ujung FVG untuk menghindari tersentuh sapuan tambahan kecil yang sering terjadi.</li>
-            <li><strong>Target Profit (Take Profit):</strong> Targetkan area likuiditas (Liquidity Pools) yang berlawanan sebagai tujuan akhir (<em>Draw on Liquidity</em>). Jika Anda membuka posisi sell di Premium, maka target logis Anda adalah level Swing Low atau area <em>Sell Side Liquidity</em> utama di zona Discount.</li>
+          <li><strong>Mulai dari context.</strong> Jangan langsung turun ke M1. Lihat dulu HTF, arah draw on liquidity, posisi harga terhadap premium/discount, dan apakah market sedang trending atau ranging.</li>
+          <li><strong>Tandai area penting.</strong> Fokus pada liquidity yang jelas, POI yang fresh, dan level yang punya alasan. Jangan menandai semua swing kecil karena chart akan terlalu ramai.</li>
+          <li><strong>Tunggu bukti delivery.</strong> Setup advanced tidak cukup hanya karena harga menyentuh area. Perlu ada reaksi: sweep, displacement, MSS, CISD, IFVG, atau bentuk rejection yang masuk akal.</li>
+          <li><strong>Pastikan invalidation jelas.</strong> Sebelum entry, kamu harus tahu di mana ide trade dianggap salah. Kalau stop loss tidak jelas, setup itu belum siap dipakai.</li>
+          <li><strong>Target harus objektif.</strong> Take profit sebaiknya diarahkan ke liquidity berikutnya, bukan angka acak karena ingin RR terlihat besar.</li>
         </ol>
 
-        <h2>Menangani FVG yang Gagal (Inversion FVG)</h2>
-        <p>Sebagai penutup, betapa pun sempurnanya sebuah setup menurut pandangan kita, market selalu memiliki kemungkinan tak terduga. Terkadang harga tidak memantul di dalam FVG A+ kita dan malah menembusnya dengan kuat dan <em>body candle</em> ditutup jelas melebihi batas ujung FVG. Jika Anda terkena Stop Loss karena ini, jangan frustrasi. Dalam perspektif SMC, setiap data pergerakan adalah informasi berharga.</p>
-        <p>Ketika sebuah FVG tertembus secara meyakinkan dan valid, area tersebut tidak menjadi tidak berguna, melainkan berubah status menjadi <strong>Inversion FVG (IFVG)</strong>. Inversion FVG dapat digunakan untuk <em>re-entry</em> atau berganti bias dalam jangka pendek, di mana FVG yang awalnya merupakan dinding tahanan kini berbalik fungsi menjadi pijakan kelanjutan tren. Namun demikian, patut diingat bahwa bagi pemula yang disiplin, prioritas utama adalah mencari Setup A+ FVG murni sesuai ceklis di atas, dan menghindari menebak-nebak pergerakan inversi jika belum benar-benar menguasai pembacaan narasi aliran order (Order Flow).</p>
-        <p>Kesabaran dan disiplin adalah senjata utama Anda. Pasar didesain untuk secara konsisten mentransfer kekayaan dari dompet mereka yang tidak sabar kepada mereka yang sabar menunggu momen yang tepat. Jangan terburu-buru, pastikan FVG Anda memenuhi kriteria A+, batasi risiko, dan biarkan keunggulan teknis dari probabilitas sistem SMC bekerja untuk Anda dalam jangka panjang.</p>
-        
-        <div class="source-note">Materi ini disusun berdasarkan standar eksekusi lanjutan Smart Money Concepts (SMC) & Inner Circle Trader (ICT).</div>
-        <nav class="page-nav">
-          <a class="btn" href="../bagian-29-backtest-advanced/03-review-mingguan-dan-expectancy.html">← Review Mingguan dan Expectancy</a>
-          <a class="btn gold" href="../daftar-materi.html">Daftar Materi</a>
-          <a class="btn primary" href="02-a-plus-liquidity-dan-idm-setup.html">A+ Liquidity dan IDM Setup →</a>
-        </nav>
-      </article>
-      <aside class="toc-card">
-        <h3>Bagian 30 — A+ Setup Library</h3>
+        <h2>Valid Jika</h2>
         <ul>
-          <li><a class="active" href="01-a-plus-fvg-setup.html">A+ FVG Setup</a></li>
-          <li><a class="" href="02-a-plus-liquidity-dan-idm-setup.html">A+ Liquidity dan IDM Setup</a></li>
-          <li><a class="" href="03-a-plus-no-trade-example.html">A+ No Trade Example</a></li>
-          
+          <li>Ada context HTF yang mendukung, bukan hanya pola kecil di LTF.</li>
+          <li>Harga berada di area yang logis: dekat liquidity, POI, premium/discount, atau draw on liquidity yang jelas.</li>
+          <li>Ada displacement yang bersih setelah area penting disentuh.</li>
+          <li>Entry masih dekat dengan area terbaik, bukan mengejar candle yang sudah jauh.</li>
+          <li>Stop loss dan take profit bisa ditentukan sebelum posisi dibuka.</li>
         </ul>
-      </aside>
-    </div>
-  </main>
-  <footer class="footer hide-until-auth">© 2026 Amy Trading Academy. Belajar Trading dari Nol sampai Mandiri.</footer>
+
+        <h2>Invalid Jika</h2>
+        <ul>
+          <li>Setup muncul di tengah range tanpa arah yang jelas.</li>
+          <li>Liquidity sudah diambil, tapi tidak ada displacement yang meyakinkan.</li>
+          <li>Harga sudah terlalu extended sehingga entry menjadi chase.</li>
+          <li>POI sudah berkali-kali disentuh dan tidak fresh lagi.</li>
+          <li>Kamu hanya mencari alasan agar tetap bisa entry.</li>
+        </ul>
+
+        <div class="warning"><strong>Catatan Amy:</strong> Di bagian advanced, tugasmu bukan mencari lebih banyak entry. Tugasmu adalah menyaring entry. Setup yang bagus biasanya terasa jelas, sabar, dan punya invalidation yang rapi. Kalau kamu harus memaksa banyak alasan agar setup terlihat valid, kemungkinan besar itu bukan A+ setup.</div>
+
+        <h2>Contoh Cara Berpikir</h2>
+        <p>Misalnya harga sedang menuju external liquidity di atas, lalu masuk ke area premium. Setelah BSL diambil, muncul displacement turun yang memecah structure kecil. Di situ kamu baru mulai mencari POI untuk sell, misalnya FVG, OB, atau IFVG yang masih dekat dengan sumber displacement. Kalau tidak ada POI bersih, kamu tidak perlu memaksa entry.</p>
+        <p>Sebaliknya, kalau harga hanya bergerak naik turun di tengah range, tidak mengambil liquidity penting, dan displacement tidak jelas, maka meskipun ada FVG kecil di M1, setup itu sebaiknya dilewati.</p>
+
+        <h2>Checklist Singkat</h2>
+        <div class="note">
+          <ul>
+            <li>Apakah context HTF jelas?</li>
+            <li>Apakah draw on liquidity sudah ditentukan?</li>
+            <li>Apakah POI atau area reaksi masih fresh?</li>
+            <li>Apakah ada sweep/displacement/MSS/CISD yang mendukung?</li>
+            <li>Apakah entry tidak terlalu jauh dari area?</li>
+            <li>Apakah stop loss dan take profit objektif?</li>
+            <li>Apakah ada alasan kuat untuk tidak trade?</li>
+          </ul>
+        </div>
+        <div class="source-note">Materi ini disusun ulang dari Materi Trading Amy untuk bagian advanced 16–30, dengan gaya bahasa Amy Trading Academy dan istilah teknis trading tetap dipertahankan.</div>
+
+      <nav class="page-nav">
+        <span></span>
+        <a class="btn gold" href="../daftar-materi.html">Daftar Materi</a>
+        <a class="btn primary" href="02-a-plus-ob-setup.html">A+ OB Setup →</a>
+      </nav>
+    </article>
+    <aside class="toc-card">
+      <h3>Bagian 30 — A+ Setup Library &amp; Full Checklist</h3>
+      <ul><li><a class="active" href="01-a-plus-fvg-setup.html">A+ FVG Setup</a></li>
+<li><a class="" href="02-a-plus-ob-setup.html">A+ OB Setup</a></li>
+<li><a class="" href="03-a-plus-liquidity-sweep-setup.html">A+ Liquidity Sweep Setup</a></li>
+<li><a class="" href="04-a-plus-ifvg-setup.html">A+ IFVG Setup</a></li>
+<li><a class="" href="05-a-plus-turtle-soup-setup.html">A+ Turtle Soup Setup</a></li>
+<li><a class="" href="06-a-plus-silver-bullet-setup.html">A+ Silver Bullet Setup</a></li>
+<li><a class="" href="07-a-plus-session-model.html">A+ Session Model</a></li>
+<li><a class="" href="08-no-trade-example.html">No-Trade Example</a></li>
+<li><a class="" href="09-full-ict-checklist.html">Full ICT Checklist</a></li>
+<li><a class="" href="10-roadmap-practice-advanced.html">Roadmap Practice Advanced</a></li></ul>
+    </aside>
+  </div>
+</main>
+<footer class="footer hide-until-auth">© 2026 Amy Trading Academy. Belajar Trading dari Nol sampai Mandiri.</footer>
 </body>
 </html>
