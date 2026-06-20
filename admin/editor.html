@@ -119,14 +119,19 @@
     .toast.show { transform: translateX(0); }
     .toast.error { border-left-color: var(--danger); }
     
+    .mobile-only { display: none !important; }
+    .nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .editor-layout.show-nav .nav-overlay { display: block; opacity: 1; pointer-events: all; }
+    
     @media (max-width: 900px) {
+      .mobile-only { display: inline-flex !important; }
       .admin-topbar { flex-direction: column; align-items: stretch; padding: 12px; gap: 12px; }
       .topbar-left { width: 100%; justify-content: space-between; }
       .topbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px; }
       #saveStatus { flex-basis: 100%; margin-right: 0 !important; margin-bottom: 4px; text-align: left; }
       
       .editor-layout { grid-template-columns: 1fr; }
-      .navigator-panel { position: absolute; left: -300px; width: 280px; top: 0; bottom: 0; transition: left 0.3s; box-shadow: 4px 0 12px rgba(0,0,0,0.5); }
+      .navigator-panel { position: fixed; left: -320px; width: 280px; top: 0; bottom: 0; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 4px 0 24px rgba(0,0,0,0.5); z-index: 2000; }
       .editor-layout.show-nav .navigator-panel { left: 0; }
       .preview-panel { display: none; }
       .editor-layout.show-preview .editor-panel { display: none; }
@@ -147,17 +152,20 @@
       <button class="btn btn-ghost btn-sm" id="btnImport">📥 Import HTML</button>
       <button class="btn btn-primary btn-sm" id="btnExport">📤 Export HTML</button>
       <button class="btn btn-secondary btn-sm" id="btnSaveGithub">🚀 Simpan ke GitHub</button>
-      <button class="btn btn-ghost btn-sm mobile-toggle" id="btnToggleNav" style="display:none;">🧭 Navigator</button>
-      <button class="btn btn-ghost btn-sm" id="btnTogglePreview" style="display:none;">👁️ Preview</button>
+      <button class="btn btn-ghost btn-sm mobile-only" id="btnToggleNav">🧭 Navigator</button>
+      <button class="btn btn-ghost btn-sm mobile-only" id="btnTogglePreview">👁️ Preview</button>
     </div>
   </header>
 
   <div class="editor-layout" id="editorLayout">
+    <div class="nav-overlay" id="navOverlay"></div>
+    
     <!-- Navigator Panel -->
     <div class="navigator-panel" id="navigatorPanel">
       <div class="nav-header">
         <button class="active" id="navFilterAll">Semua Blok</button>
         <button id="navFilterImage">Gambar Saja</button>
+        <button id="navCloseBtn" class="mobile-only" style="flex: 0 0 32px; font-size: 24px; line-height: 1; padding: 0; background: transparent; border: none; color: var(--text-muted); cursor: pointer; align-items: center; justify-content: center;">&times;</button>
       </div>
       <div class="nav-body" id="navBody">
         <!-- Navigator items rendered via JS -->

@@ -101,7 +101,21 @@ const Editor = {
     const btnToggleNav = document.getElementById('btnToggleNav');
     if (btnToggleNav) {
       btnToggleNav.addEventListener('click', () => {
-        document.getElementById('editorLayout').classList.toggle('show-nav');
+        document.getElementById('editorLayout').classList.add('show-nav');
+      });
+    }
+    
+    const navCloseBtn = document.getElementById('navCloseBtn');
+    if (navCloseBtn) {
+      navCloseBtn.addEventListener('click', () => {
+        document.getElementById('editorLayout').classList.remove('show-nav');
+      });
+    }
+    
+    const navOverlay = document.getElementById('navOverlay');
+    if (navOverlay) {
+      navOverlay.addEventListener('click', () => {
+        document.getElementById('editorLayout').classList.remove('show-nav');
       });
     }
     
