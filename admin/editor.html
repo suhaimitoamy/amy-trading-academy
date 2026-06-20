@@ -123,10 +123,18 @@
     
     @media (max-width: 900px) {
       .mobile-only { display: inline-flex !important; }
-      .admin-topbar { flex-direction: column; align-items: stretch; padding: 12px; gap: 12px; }
-      .topbar-left { width: 100%; justify-content: space-between; }
-      .topbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px; }
-      #saveStatus { flex-basis: 100%; margin-right: 0 !important; margin-bottom: 4px; text-align: left; }
+      .admin-topbar { flex-direction: column; align-items: stretch; padding: 8px 12px; gap: 8px; }
+      .topbar-left { width: 100%; flex-wrap: nowrap; justify-content: flex-start; gap: 6px; align-items: center; }
+      #btnDashboard { font-size: 10px; padding: 4px 8px; height: auto; border-radius: 12px; flex-shrink: 0; border: 1px solid var(--border); }
+      #editorTitle { font-size: 13px; flex-grow: 1; white-space: normal; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0; }
+      #btnUndo, #btnRedo { padding: 4px 8px !important; font-size: 14px !important; margin-left: 0 !important; flex-shrink: 0; }
+      
+      .topbar-right { width: 100%; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 10px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; border: 1px solid rgba(255,255,255,0.05); }
+      .topbar-right button { font-size: 10px; padding: 6px 2px; justify-content: center; height: auto; white-space: nowrap; border-radius: 6px; border: 1px solid transparent; }
+      .topbar-right button.btn-secondary { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #fff; }
+      .topbar-right button.btn-primary { background: rgba(16, 185, 129, 0.2); border-color: var(--accent); color: var(--accent); }
+      .topbar-right button.btn-ghost { background: transparent; border-color: rgba(255,255,255,0.1); }
+      #saveStatus { grid-column: 1 / -1; margin-bottom: 2px; font-size: 10px; text-align: center; margin-right: 0 !important; }
       
       .editor-layout { grid-template-columns: 1fr; }
       .navigator-panel { position: fixed; left: -320px; width: 280px; top: 0; bottom: 0; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 4px 0 24px rgba(0,0,0,0.5); z-index: 2000; }
@@ -141,20 +149,21 @@
   <!-- Top bar -->
   <header class="admin-topbar">
     <div class="topbar-left">
-      <a href="index.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+      <a href="index.html" class="btn btn-ghost btn-sm" id="btnDashboard">← Dashboard</a>
       <span class="admin-title" id="editorTitle">Editor Materi</span>
       <button class="btn btn-ghost btn-sm" id="btnUndo" title="Undo (Ctrl+Z)" disabled style="font-size: 16px; padding: 4px 8px; margin-left: 8px;">↶</button>
       <button class="btn btn-ghost btn-sm" id="btnRedo" title="Redo (Ctrl+Y)" disabled style="font-size: 16px; padding: 4px 8px;">↷</button>
     </div>
     <div class="topbar-right">
       <span class="text-muted" id="saveStatus" style="font-size:12px; margin-right:12px;"></span>
-      <button class="btn btn-ghost btn-sm" id="btnToggleAddBlock">＋ Tambah Blok</button>
-      <button class="btn btn-ghost btn-sm" id="btnGithubSettings" title="GitHub Settings">⚙️</button>
-      <button class="btn btn-ghost btn-sm" id="btnImport">📥 Import HTML</button>
-      <button class="btn btn-primary btn-sm" id="btnExport">📤 Export HTML</button>
-      <button class="btn btn-secondary btn-sm" id="btnSaveGithub">🚀 Simpan ke GitHub</button>
+      <button class="btn btn-ghost btn-sm" id="btnToggleAddBlock">➕ Blok</button>
+      <button class="btn btn-ghost btn-sm" id="btnImport">📥 Import</button>
+      <button class="btn btn-primary btn-sm" id="btnExport">📤 Export</button>
+      <button class="btn btn-secondary btn-sm" id="btnSaveGithub">🚀 Simpan</button>
+      <button class="btn btn-secondary btn-sm" id="btnPushGithub">🐙 GitHub</button>
       <button class="btn btn-ghost btn-sm mobile-only" id="btnToggleNav">🧭 Navigator</button>
       <button class="btn btn-ghost btn-sm mobile-only" id="btnTogglePreview">👁️ Preview</button>
+      <button class="btn btn-ghost btn-sm" id="btnGithubSettings" title="GitHub Settings">⚙</button>
     </div>
   </header>
 

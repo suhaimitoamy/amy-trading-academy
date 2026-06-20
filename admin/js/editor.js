@@ -205,6 +205,8 @@ const Editor = {
     });
     
     document.getElementById('btnSaveGithub').addEventListener('click', () => this.saveToGithub());
+    const btnPushGithub = document.getElementById('btnPushGithub');
+    if (btnPushGithub) btnPushGithub.addEventListener('click', () => this.saveToGithub());
     
     document.getElementById('importFileInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
