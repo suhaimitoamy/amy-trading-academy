@@ -7,6 +7,7 @@ const Editor = {
   history: [],
   historyIndex: -1,
   isRestoringHistory: false,
+  selectedBlockId: null,
   
   init() {
     ImageManager.init();
@@ -34,7 +35,34 @@ const Editor = {
     
     if (folder && file) {
       document.getElementById('editorTitle').innerText = `Edit: ${file}`;
-      this.loadFromServer(folder, file);
+      
+      const draftKey = `amy_admin_draft_${folder}_${file}`;
+      const draftData = localStorage.getItem(draftKey);
+      
+      if (draftData) {
+        if (confirm("Ada draft lokal yang belum disimpan. Pulihkan draft?\n[OK = Pulihkan] [Cancel = Abaikan]")) {
+          try {
+            const parsed = JSON.parse(draftData);
+            this.metadata = parsed.metadata || this.metadata;
+            this.blocks = parsed.blocks || [];
+            this.titleInput.value = this.metadata.title || '';
+            this.eyebrowInput.value = this.metadata.eyebrow || '';
+            this.prevInput.value = this.metadata.prevLink || '';
+            this.nextInput.value = this.metadata.nextLink || '';
+            this.renderBlocks();
+            this.triggerPreviewUpdate();
+            this.saveHistory();
+          } catch(e) {
+            console.error('Draft parsing error', e);
+            this.loadFromServer(folder, file);
+          }
+        } else {
+          localStorage.removeItem(draftKey);
+          this.loadFromServer(folder, file);
+        }
+      } else {
+        this.loadFromServer(folder, file);
+      }
     } else {
       // Empty state
       this.addBlock('paragraph');
@@ -42,6 +70,13 @@ const Editor = {
     
     // Start auto-save
     setInterval(() => this.autoSave(), 30000);
+    
+    // Add global click listener for closing dropdowns
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.type-dropdown-menu').forEach(menu => {
+        menu.style.display = 'none';
+      });
+    });
   },
   
   bindEvents() {
@@ -68,7 +103,7 @@ const Editor = {
     document.querySelectorAll('#addBlockBarBody button.nav-item').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const type = e.currentTarget.dataset.type;
-        this.addBlock(type);
+        this.addBlock(type, this.selectedBlockId);
         layout.classList.remove('show-add-block');
       });
     });
@@ -334,6 +369,14 @@ const Editor = {
     setTimeout(() => {
       const el = document.getElementById(newBlock.id);
       if (el) {
+        const headerOffset = document.querySelector('.admin-topbar')?.offsetHeight || 160;
+        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerOffset - 24;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        
         const editable = el.querySelector('.block-content');
         if (editable) editable.focus();
       }
@@ -392,6 +435,45 @@ const Editor = {
     }
   },
   
+  changeBlockType(id, newType) {
+    const block = this.blocks.find(b => b.id === id);
+    if (!block || block.type === newType) return;
+    
+    let oldContent = block.content || '';
+    if (block.type === 'image') oldContent = block.imageCaption || '';
+    if (block.type === 'list') oldContent = block.listItems ? block.listItems.join('<br>') : '';
+    
+    // Changing TO list
+    if (newType === 'list') {
+      block.listType = 'ul';
+      const items = oldContent.replace(/<\/div>/g, '').split(/<br>|<div>/);
+      block.listItems = items.filter(i => i.trim() !== '');
+      if (block.listItems.length === 0) block.listItems = [''];
+    } 
+    // Changing FROM list
+    else if (block.type === 'list') {
+      block.content = block.listItems.join('<br>');
+    }
+    // Changing TO image
+    else if (newType === 'image') {
+      block.imageCaption = oldContent.replace(/<[^>]+>/g, ''); // strip HTML
+      block.imageUrl = ''; // Empty image
+    }
+    // Changing FROM image
+    else if (block.type === 'image') {
+      block.content = block.imageCaption || '';
+    }
+    // Changing Text to Text
+    else {
+      block.content = oldContent;
+    }
+    
+    block.type = newType;
+    this.renderBlocks();
+    this.triggerPreviewUpdate();
+    this.saveHistory();
+  },
+  
   renderBlocks() {
     this.container.innerHTML = '';
     
@@ -403,8 +485,51 @@ const Editor = {
       
       const typeIndicator = document.createElement('div');
       typeIndicator.className = 'block-type-indicator';
-      typeIndicator.innerText = block.type;
+      
+      const typeLabel = document.createElement('span');
+      typeLabel.innerText = block.type.toUpperCase() + ' ▾';
+      typeIndicator.appendChild(typeLabel);
+      
+      const dropdown = document.createElement('div');
+      dropdown.className = 'type-dropdown-menu';
+      dropdown.style.display = 'none';
+      dropdown.innerHTML = `
+        <div data-val="paragraph">Paragraph</div>
+        <div data-val="heading2">Heading 2</div>
+        <div data-val="heading3">Heading 3</div>
+        <div data-val="list">List</div>
+        <div data-val="image">Image</div>
+        <div data-val="warning">Warning</div>
+        <div data-val="note">Note</div>
+        <div data-val="blockquote">Quote</div>
+        <div data-val="code">Code</div>
+      `;
+      typeIndicator.appendChild(dropdown);
+      
+      typeIndicator.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.type-dropdown-menu').forEach(menu => {
+           if (menu !== dropdown) menu.style.display = 'none';
+        });
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+      });
+      
+      dropdown.querySelectorAll('div').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown.style.display = 'none';
+          Editor.changeBlockType(block.id, item.getAttribute('data-val'));
+        });
+      });
+      
       blockEl.appendChild(typeIndicator);
+      
+      // Global click to select block
+      blockEl.addEventListener('mousedown', () => {
+        document.querySelectorAll('.editor-block').forEach(el => el.classList.remove('selected'));
+        blockEl.classList.add('selected');
+        Editor.selectedBlockId = block.id;
+      });
       
       const actions = document.createElement('div');
       actions.className = 'block-actions';
@@ -493,7 +618,10 @@ const Editor = {
         });
         
         // Focus state
-        contentEl.addEventListener('focus', () => blockEl.classList.add('selected'));
+        contentEl.addEventListener('focus', () => {
+          blockEl.classList.add('selected');
+          Editor.selectedBlockId = block.id;
+        });
         contentEl.addEventListener('blur', () => {
           blockEl.classList.remove('selected');
           this.saveHistory();
@@ -538,6 +666,7 @@ const Editor = {
     clearTimeout(this.previewTimeout);
     this.previewTimeout = setTimeout(() => {
       this.updatePreview();
+      this.autoSave();
       this.saveStatus.innerText = '• Perubahan belum disimpan';
     }, 300);
   },
@@ -677,6 +806,11 @@ const Editor = {
       );
       this.saveStatus.innerText = '✓ Berhasil disimpan';
       this.showToast('Berhasil disimpan ke GitHub secara instan.', 'success');
+      
+      // Remove draft after successful save
+      const draftKey = `amy_admin_draft_${folder}_${file}`;
+      localStorage.removeItem(draftKey);
+      
       this.triggerPreviewUpdate(); // re-render preview
     } catch (err) {
       console.error(err);
@@ -846,9 +980,18 @@ const Editor = {
         if (e.target.tagName === 'BUTTON') return;
         const targetBlock = document.getElementById(block.id);
         if (targetBlock) {
-          targetBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const headerOffset = document.querySelector('.admin-topbar')?.offsetHeight || 160;
+          const elementPosition = targetBlock.getBoundingClientRect().top + window.scrollY;
+          const offsetPosition = elementPosition - headerOffset - 24;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+          
           targetBlock.classList.add('highlight');
           setTimeout(() => targetBlock.classList.remove('highlight'), 2000);
+          Editor.selectedBlockId = block.id;
         }
         if (window.innerWidth <= 900) {
           document.getElementById('editorLayout').classList.remove('show-nav');

@@ -50,7 +50,11 @@
     .block-content { min-height: 24px; outline: none; font-size: 15px; }
     .block-content[data-placeholder]:empty:before { content: attr(data-placeholder); color: var(--text-muted); pointer-events: none; }
     
-    .block-type-indicator { position: absolute; top: -10px; left: 16px; background: var(--bg); border: 1px solid var(--border); padding: 2px 8px; border-radius: 10px; font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+    .block-type-indicator { position: absolute; top: -10px; left: 16px; background: var(--bg); border: 1px solid var(--border); padding: 2px 8px; border-radius: 10px; font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; cursor: pointer; z-index: 10; }
+    .block-type-indicator:hover { border-color: var(--accent); color: var(--accent); }
+    .type-dropdown-menu { position: absolute; top: 100%; left: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 4px; display: flex; flex-direction: column; gap: 2px; min-width: 120px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 100; margin-top: 4px; text-transform: none; }
+    .type-dropdown-menu div { padding: 6px 12px; font-size: 12px; color: var(--text); border-radius: 4px; cursor: pointer; text-transform: capitalize; }
+    .type-dropdown-menu div:hover { background: rgba(16, 185, 129, 0.1); color: var(--accent); }
     
     .block-actions { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); padding: 2px; }
     .editor-block:hover .block-actions, .editor-block.selected .block-actions { opacity: 1; }
