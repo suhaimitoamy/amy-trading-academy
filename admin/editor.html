@@ -201,7 +201,7 @@
   <div class="modal-overlay" id="githubModalOverlay">
     <div class="modal">
       <div class="modal-header">
-        <span>⚙️ GitHub Settings</span>
+        <span>⚙️ Pengaturan Editor</span>
         <button class="modal-close" id="githubModalClose">&times;</button>
       </div>
       <div class="modal-body">
@@ -209,6 +209,11 @@
           <label>GitHub Personal Access Token (PAT)</label>
           <input type="password" id="githubTokenInput" placeholder="ghp_xxxxxxxxxxxx">
           <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">Token disimpan lokal di browser (localStorage). Pastikan token memiliki akses ke repo.</div>
+        </div>
+        <div class="form-group" style="margin-top: 16px;">
+          <label>ImgBB API Key (Gratis image hosting)</label>
+          <input type="password" id="imgbbApiKey" placeholder="Dapatkan di api.imgbb.com">
+          <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">Wajib diisi agar gambar tidak menjadi base64 yang memberatkan ukuran file.</div>
         </div>
       </div>
       <div class="modal-footer" style="padding: 16px; display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--border);">
@@ -229,7 +234,6 @@
         <div class="tab-bar">
           <button class="tab-btn active" data-tab="upload">Upload</button>
           <button class="tab-btn" data-tab="url">Paste URL</button>
-          <button class="tab-btn" data-tab="settings">Settings</button>
         </div>
         
         <div id="tab-upload" class="tab-content">
@@ -247,14 +251,6 @@
           <div class="form-group">
             <label>URL Gambar</label>
             <input type="text" id="imgUrlInput" placeholder="https://...">
-          </div>
-        </div>
-        
-        <div id="tab-settings" class="tab-content" style="display:none;">
-          <div class="form-group">
-            <label>ImgBB API Key (Gratis image hosting)</label>
-            <input type="password" id="imgbbApiKey" placeholder="Dapatkan di api.imgbb.com">
-            <div style="font-size:12px; color:var(--text-muted);">Jika kosong, gambar disimpan sebagai base64 (tidak disarankan untuk banyak gambar).</div>
           </div>
         </div>
         

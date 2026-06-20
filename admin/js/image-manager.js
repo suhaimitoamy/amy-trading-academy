@@ -10,14 +10,11 @@ const ImageManager = {
     this.dropZone = document.getElementById('dropZone');
     this.fileInput = document.getElementById('imageFileInput');
     this.urlInput = document.getElementById('imgUrlInput');
-    this.apiKeyInput = document.getElementById('imgbbApiKey');
     this.captionInput = document.getElementById('imgCaption');
     this.sizeSelect = document.getElementById('imgSize');
     this.positionSelect = document.getElementById('imgPosition');
     this.uploadPreview = document.getElementById('uploadPreview');
     this.uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    
-    this.apiKeyInput.value = this.apiKey;
     
     this.currentCallback = null;
     this.currentDataUrl = null;
@@ -59,12 +56,6 @@ const ImageManager = {
       if (e.target.files.length) {
         this.processFile(e.target.files[0]);
       }
-    });
-    
-    // API Key change
-    this.apiKeyInput.addEventListener('change', (e) => {
-      this.apiKey = e.target.value;
-      localStorage.setItem('amy_imgbb_api_key', this.apiKey);
     });
     
     // Save button
@@ -173,27 +164,28 @@ const ImageManager = {
       
       // If we have a new dataUrl from upload
       if (this.currentDataUrl) {
-        if (this.apiKey) {
-          // Upload to ImgBB
-          const formData = new FormData();
-          formData.append('key', this.apiKey);
-          // Remove data:image/jpeg;base64,
-          formData.append('image', this.currentDataUrl.split(',')[1]);
-          
-          const response = await fetch('https://api.imgbb.com/1/upload', {
-            method: 'POST',
-            body: formData
-          });
-          
-          const result = await response.json();
-          if (result.success) {
-            finalUrl = result.data.url;
-          } else {
-            throw new Error(result.error.message || 'Gagal upload ke ImgBB');
-          }
+        const apiKey = localStorage.getItem('amy_imgbb_api_key');
+        
+        if (!apiKey) {
+          throw new Error('ImgBB API Key belum diset! Silakan buka ⚙️ Pengaturan Editor terlebih dahulu.');
+        }
+        
+        // Upload to ImgBB
+        const formData = new FormData();
+        formData.append('key', apiKey);
+        // Remove data:image/jpeg;base64,
+        formData.append('image', this.currentDataUrl.split(',')[1]);
+        
+        const response = await fetch('https://api.imgbb.com/1/upload', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+          finalUrl = result.data.url;
         } else {
-          // Use base64
-          finalUrl = this.currentDataUrl;
+          throw new Error(result.error.message || 'Gagal upload ke ImgBB');
         }
       }
       

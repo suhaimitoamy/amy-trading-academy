@@ -66,7 +66,9 @@ const Editor = {
     // GitHub Save & Settings
     document.getElementById('btnGithubSettings').addEventListener('click', () => {
       const token = localStorage.getItem('amy_github_token') || '';
+      const imgbbKey = localStorage.getItem('amy_imgbb_api_key') || '';
       document.getElementById('githubTokenInput').value = token;
+      document.getElementById('imgbbApiKey').value = imgbbKey;
       document.getElementById('githubModalOverlay').classList.add('active');
     });
     
@@ -80,13 +82,22 @@ const Editor = {
     
     document.getElementById('githubModalSave').addEventListener('click', () => {
       const token = document.getElementById('githubTokenInput').value.trim();
+      const imgbbKey = document.getElementById('imgbbApiKey').value.trim();
+      
       if (token) {
         localStorage.setItem('amy_github_token', token);
       } else {
         localStorage.removeItem('amy_github_token');
       }
+      
+      if (imgbbKey) {
+        localStorage.setItem('amy_imgbb_api_key', imgbbKey);
+      } else {
+        localStorage.removeItem('amy_imgbb_api_key');
+      }
+      
       document.getElementById('githubModalOverlay').classList.remove('active');
-      this.showToast('GitHub token disimpan lokal', 'success');
+      this.showToast('Pengaturan Editor disimpan lokal', 'success');
     });
     
     document.getElementById('btnSaveGithub').addEventListener('click', () => this.saveToGithub());
@@ -94,6 +105,10 @@ const Editor = {
     document.getElementById('importFileInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
+      
+      this.currentFileName = file.name;
+      document.getElementById('editorTitle').innerText = `Edit: ${this.currentFileName}`;
+      
       const reader = new FileReader();
       reader.onload = (ev) => this.importHTML(ev.target.result);
       reader.readAsText(file);
@@ -400,20 +415,36 @@ const Editor = {
   saveToGithub() {
     const urlParams = new URLSearchParams(window.location.search);
     const folder = urlParams.get('folder');
-    const file = urlParams.get('file');
+    // Prioritize currentFileName if user imported a file, otherwise fallback to URL
+    const file = this.currentFileName || urlParams.get('file');
     
     if (!folder || !file) {
-      alert("Error: Folder atau file tidak ditemukan di URL. Simpan ke GitHub hanya mendukung edit file yang sudah ada.");
+      alert("Error: Folder atau file tidak ditemukan. Pastikan Anda membuka materi dari Dashboard atau melakukan Import HTML.");
       return;
     }
     
     const token = localStorage.getItem('amy_github_token');
     if (!token) {
-      alert("Token GitHub belum diset! Silakan klik tombol ⚙️ untuk memasukkan Personal Access Token.");
+      alert("GitHub token belum diisi. Silakan klik tombol ⚙️ Pengaturan Editor.");
       return;
     }
     
     const html = HtmlIO.exportHtml(this.metadata, this.blocks);
+    
+    // Validasi gambar base64
+    if (html.includes('data:image/') || html.includes('base64,')) {
+      alert('Peringatan: Gambar masih base64. Upload ke ImgBB dulu.');
+      this.saveStatus.innerText = '❌ Gagal menyimpan';
+      return;
+    }
+    
+    const actualFilePath = `${folder}/${file}`;
+    
+    const confirmMsg = `Menyimpan ke:\n${actualFilePath}\n\nLanjutkan?`;
+    if (!confirm(confirmMsg)) {
+      this.saveStatus.innerText = 'Batal menyimpan';
+      return;
+    }
     
     // Encode UTF-8 to Base64 safely
     const encoder = new TextEncoder();
@@ -424,7 +455,6 @@ const Editor = {
     }
     const contentBase64 = btoa(binary);
     
-    const actualFilePath = `${folder}/${file}`;
     this.saveStatus.innerText = 'Menyimpan ke GitHub...';
     
     fetch('https://api.github.com/repos/suhaimitoamy/amy-trading-academy/actions/workflows/save-html.yml/dispatches', {
