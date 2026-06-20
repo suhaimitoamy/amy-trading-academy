@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="../assets/css/style.css" id="previewStylesheet">
   <style>
     /* Editor-specific styles */
-    .editor-layout { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 60px); margin-top: 60px; overflow: hidden; }
+    body { display: flex; flex-direction: column; height: 100vh; overflow: hidden; margin: 0; }
+    .admin-topbar { position: relative !important; flex-shrink: 0; height: auto !important; min-height: 60px; }
+    .editor-layout { display: grid; grid-template-columns: 1fr 1fr; flex-grow: 1; height: auto !important; margin-top: 0 !important; overflow: hidden; }
     .editor-panel { overflow-y: auto; padding: 24px; background: var(--bg); position: relative; }
     .preview-panel { overflow-y: auto; border-left: 1px solid var(--border); background: #f4f6f1; }
     
@@ -98,6 +100,11 @@
     .toast.error { border-left-color: var(--danger); }
     
     @media (max-width: 900px) {
+      .admin-topbar { flex-direction: column; align-items: stretch; padding: 12px; gap: 12px; }
+      .topbar-left { width: 100%; justify-content: space-between; }
+      .topbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 8px; }
+      #saveStatus { flex-basis: 100%; margin-right: 0 !important; margin-bottom: 4px; text-align: left; }
+      
       .editor-layout { grid-template-columns: 1fr; }
       .preview-panel { display: none; }
       .editor-layout.show-preview .editor-panel { display: none; }
