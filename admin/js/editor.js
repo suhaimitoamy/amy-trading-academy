@@ -45,27 +45,31 @@ const Editor = {
   },
   
   bindEvents() {
-    // Toggle Add Block Popup
+    // Toggle Add Block Drawer
     const btnToggleAddBlock = document.getElementById('btnToggleAddBlock');
-    const addBlockBar = document.getElementById('addBlockBar');
-    if (btnToggleAddBlock && addBlockBar) {
+    const layout = document.getElementById('editorLayout');
+    
+    if (btnToggleAddBlock) {
       btnToggleAddBlock.addEventListener('click', (e) => {
         e.stopPropagation();
-        addBlockBar.classList.toggle('show');
+        layout.classList.toggle('show-add-block');
+        layout.classList.remove('show-nav');
       });
-      document.addEventListener('click', (e) => {
-        if (!addBlockBar.contains(e.target) && e.target !== btnToggleAddBlock) {
-          addBlockBar.classList.remove('show');
-        }
+    }
+    
+    const addBlockCloseBtn = document.getElementById('addBlockCloseBtn');
+    if (addBlockCloseBtn) {
+      addBlockCloseBtn.addEventListener('click', () => {
+        layout.classList.remove('show-add-block');
       });
     }
 
     // Add block buttons
-    document.querySelectorAll('#addBlockBar button').forEach(btn => {
+    document.querySelectorAll('#addBlockBarBody button.nav-item').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const type = e.currentTarget.dataset.type;
         this.addBlock(type);
-        if (addBlockBar) addBlockBar.classList.remove('show');
+        layout.classList.remove('show-add-block');
       });
     });
     
@@ -144,6 +148,7 @@ const Editor = {
     if (btnToggleNav) {
       btnToggleNav.addEventListener('click', () => {
         document.getElementById('editorLayout').classList.add('show-nav');
+        document.getElementById('editorLayout').classList.remove('show-add-block');
       });
     }
     
@@ -158,6 +163,7 @@ const Editor = {
     if (navOverlay) {
       navOverlay.addEventListener('click', () => {
         document.getElementById('editorLayout').classList.remove('show-nav');
+        document.getElementById('editorLayout').classList.remove('show-add-block');
       });
     }
     
