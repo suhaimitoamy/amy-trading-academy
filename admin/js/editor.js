@@ -63,6 +63,34 @@ const Editor = {
     document.getElementById('btnExport').addEventListener('click', () => this.exportHTML());
     document.getElementById('btnImport').addEventListener('click', () => document.getElementById('importFileInput').click());
     
+    // GitHub Save & Settings
+    document.getElementById('btnGithubSettings').addEventListener('click', () => {
+      const token = localStorage.getItem('amy_github_token') || '';
+      document.getElementById('githubTokenInput').value = token;
+      document.getElementById('githubModalOverlay').classList.add('active');
+    });
+    
+    document.getElementById('githubModalClose').addEventListener('click', () => {
+      document.getElementById('githubModalOverlay').classList.remove('active');
+    });
+    
+    document.getElementById('githubModalCancel').addEventListener('click', () => {
+      document.getElementById('githubModalOverlay').classList.remove('active');
+    });
+    
+    document.getElementById('githubModalSave').addEventListener('click', () => {
+      const token = document.getElementById('githubTokenInput').value.trim();
+      if (token) {
+        localStorage.setItem('amy_github_token', token);
+      } else {
+        localStorage.removeItem('amy_github_token');
+      }
+      document.getElementById('githubModalOverlay').classList.remove('active');
+      this.showToast('GitHub token disimpan lokal', 'success');
+    });
+    
+    document.getElementById('btnSaveGithub').addEventListener('click', () => this.saveToGithub());
+    
     document.getElementById('importFileInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -367,6 +395,64 @@ const Editor = {
     
     this.saveStatus.innerText = '✓ Tersimpan';
     this.showToast(`HTML diekspor sebagai ${fileName}`, 'success');
+  },
+  
+  saveToGithub() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const folder = urlParams.get('folder');
+    const file = urlParams.get('file');
+    
+    if (!folder || !file) {
+      alert("Error: Folder atau file tidak ditemukan di URL. Simpan ke GitHub hanya mendukung edit file yang sudah ada.");
+      return;
+    }
+    
+    const token = localStorage.getItem('amy_github_token');
+    if (!token) {
+      alert("Token GitHub belum diset! Silakan klik tombol ⚙️ untuk memasukkan Personal Access Token.");
+      return;
+    }
+    
+    const html = HtmlIO.exportHtml(this.metadata, this.blocks);
+    
+    // Encode UTF-8 to Base64 safely
+    const encoder = new TextEncoder();
+    const data = encoder.encode(html);
+    let binary = '';
+    for (let i = 0; i < data.byteLength; i++) {
+      binary += String.fromCharCode(data[i]);
+    }
+    const contentBase64 = btoa(binary);
+    
+    const actualFilePath = `${folder}/${file}`;
+    this.saveStatus.innerText = 'Menyimpan ke GitHub...';
+    
+    fetch('https://api.github.com/repos/suhaimitoamy/amy-trading-academy/actions/workflows/save-html.yml/dispatches', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ref: 'main',
+        inputs: {
+          file_path: actualFilePath,
+          content_base64: contentBase64,
+          commit_message: `Update materi: ${file} dari Admin Editor`
+        }
+      })
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Network response was not ok');
+      this.saveStatus.innerText = '✓ Berhasil dikirim ke GitHub Actions';
+      this.showToast('Berhasil dikirim ke GitHub Actions. Tunggu beberapa saat.', 'success');
+    })
+    .catch(err => {
+      console.error(err);
+      this.saveStatus.innerText = '❌ Gagal menyimpan';
+      alert('Gagal mengirim ke GitHub. Pastikan token benar dan memiliki akses repo.');
+    });
   },
   
   async loadFromServer(folder, file) {
