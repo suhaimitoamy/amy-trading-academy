@@ -369,16 +369,12 @@ const Editor = {
     setTimeout(() => {
       const el = document.getElementById(newBlock.id);
       if (el) {
-        const headerOffset = document.querySelector('.admin-topbar')?.offsetHeight || 160;
-        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - headerOffset - 24;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
+        this.scrollToEditorBlock(newBlock.id);
         
-        const editable = el.querySelector('.block-content');
-        if (editable) editable.focus();
+        setTimeout(() => {
+          const editable = el.querySelector('.block-content');
+          if (editable) editable.focus();
+        }, 200); // Wait for scroll
       }
     }, 50);
   },
@@ -946,6 +942,47 @@ const Editor = {
     }, 3000);
   },
   
+  scrollToEditorBlock(blockId) {
+    const layout = document.getElementById('editorLayout');
+    const targetBlock = document.getElementById(blockId);
+    const editorPanel = document.querySelector('.editor-panel');
+    const topbar = document.querySelector('.admin-topbar');
+
+    if (!targetBlock) return;
+
+    if (layout) {
+      layout.classList.remove('show-nav');
+      layout.classList.remove('show-add-block');
+    }
+
+    setTimeout(() => {
+      const safeOffset = (topbar?.offsetHeight || 120) + 24;
+
+      if (editorPanel) {
+        const panelRect = editorPanel.getBoundingClientRect();
+        const blockRect = targetBlock.getBoundingClientRect();
+        const targetTop = editorPanel.scrollTop + blockRect.top - panelRect.top - safeOffset;
+
+        editorPanel.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: 'smooth'
+        });
+      } else {
+        const elementPosition = targetBlock.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - safeOffset;
+
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: 'smooth'
+        });
+      }
+
+      targetBlock.classList.add('highlight');
+      setTimeout(() => targetBlock.classList.remove('highlight'), 2000);
+      this.selectedBlockId = blockId;
+    }, 180);
+  },
+
   renderNavigator() {
     if (!this.navBody) return;
     this.navBody.innerHTML = '';
@@ -978,24 +1015,7 @@ const Editor = {
       // Jump to block
       el.addEventListener('click', (e) => {
         if (e.target.tagName === 'BUTTON') return;
-        const targetBlock = document.getElementById(block.id);
-        if (targetBlock) {
-          const headerOffset = document.querySelector('.admin-topbar')?.offsetHeight || 160;
-          const elementPosition = targetBlock.getBoundingClientRect().top + window.scrollY;
-          const offsetPosition = elementPosition - headerOffset - 24;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-          
-          targetBlock.classList.add('highlight');
-          setTimeout(() => targetBlock.classList.remove('highlight'), 2000);
-          Editor.selectedBlockId = block.id;
-        }
-        if (window.innerWidth <= 900) {
-          document.getElementById('editorLayout').classList.remove('show-nav');
-        }
+        Editor.scrollToEditorBlock(block.id);
       });
       
       // Drag & Drop
