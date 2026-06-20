@@ -4,6 +4,9 @@ const Editor = {
   metadata: {
     title: '', eyebrow: '', prevLink: '', nextLink: '', sourceNote: ''
   },
+  history: [],
+  historyIndex: -1,
+  isRestoringHistory: false,
   
   init() {
     ImageManager.init();
@@ -50,6 +53,24 @@ const Editor = {
       });
     });
     
+    // Undo / Redo
+    const btnUndo = document.getElementById('btnUndo');
+    const btnRedo = document.getElementById('btnRedo');
+    if (btnUndo) btnUndo.addEventListener('click', () => this.undo());
+    if (btnRedo) btnRedo.addEventListener('click', () => this.redo());
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        if (e.shiftKey) this.redo();
+        else this.undo();
+      } else if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+        e.preventDefault();
+        this.redo();
+      }
+    });
+    
     // Metadata inputs
     const updateMeta = () => {
       this.metadata.title = this.titleInput.value;
@@ -63,6 +84,11 @@ const Editor = {
     this.eyebrowInput.addEventListener('input', updateMeta);
     this.prevInput.addEventListener('input', updateMeta);
     this.nextInput.addEventListener('input', updateMeta);
+    
+    this.titleInput.addEventListener('blur', () => this.saveHistory());
+    this.eyebrowInput.addEventListener('blur', () => this.saveHistory());
+    this.prevInput.addEventListener('blur', () => this.saveHistory());
+    this.nextInput.addEventListener('blur', () => this.saveHistory());
     
     // Export/Import
     document.getElementById('btnExport').addEventListener('click', () => this.exportHTML());
@@ -198,6 +224,62 @@ const Editor = {
     return 'block_' + Math.random().toString(36).substr(2, 9);
   },
   
+  saveHistory() {
+    if (this.isRestoringHistory) return;
+    if (this.historyIndex < this.history.length - 1) {
+      this.history = this.history.slice(0, this.historyIndex + 1);
+    }
+    const snapshot = {
+      blocks: JSON.parse(JSON.stringify(this.blocks)),
+      metadata: JSON.parse(JSON.stringify(this.metadata))
+    };
+    this.history.push(snapshot);
+    if (this.history.length > 50) {
+      this.history.shift();
+    }
+    this.historyIndex = this.history.length - 1;
+    this.updateHistoryButtons();
+  },
+  
+  undo() {
+    if (this.historyIndex > 0) {
+      this.historyIndex--;
+      this.restoreHistoryState(this.history[this.historyIndex]);
+    }
+  },
+  
+  redo() {
+    if (this.historyIndex < this.history.length - 1) {
+      this.historyIndex++;
+      this.restoreHistoryState(this.history[this.historyIndex]);
+    }
+  },
+  
+  restoreHistoryState(state) {
+    this.isRestoringHistory = true;
+    this.blocks = JSON.parse(JSON.stringify(state.blocks));
+    this.metadata = JSON.parse(JSON.stringify(state.metadata));
+    
+    this.titleInput.value = this.metadata.title;
+    this.eyebrowInput.value = this.metadata.eyebrow;
+    this.prevInput.value = this.metadata.prevLink;
+    this.nextInput.value = this.metadata.nextLink;
+    
+    this.renderBlocks();
+    this.triggerPreviewUpdate();
+    
+    this.updateHistoryButtons();
+    
+    setTimeout(() => { this.isRestoringHistory = false; }, 50);
+  },
+  
+  updateHistoryButtons() {
+    const btnUndo = document.getElementById('btnUndo');
+    const btnRedo = document.getElementById('btnRedo');
+    if (btnUndo) btnUndo.disabled = this.historyIndex <= 0;
+    if (btnRedo) btnRedo.disabled = this.historyIndex >= this.history.length - 1;
+  },
+  
   addBlock(type, afterId = null, initialContent = '') {
     const newBlock = {
       id: this.generateId(),
@@ -222,6 +304,7 @@ const Editor = {
     }
     
     this.renderBlocks();
+    this.saveHistory();
     
     // Focus new block
     setTimeout(() => {
@@ -237,6 +320,7 @@ const Editor = {
     this.blocks = this.blocks.filter(b => b.id !== id);
     this.renderBlocks();
     this.triggerPreviewUpdate();
+    this.saveHistory();
   },
   
   moveBlock(id, direction) {
@@ -257,10 +341,15 @@ const Editor = {
     } else if (direction === 'bottom' && index < this.blocks.length - 1) {
       const block = this.blocks.splice(index, 1)[0];
       this.blocks.push(block);
+    } else if (direction === 'mid') {
+      const block = this.blocks.splice(index, 1)[0];
+      const middleIndex = Math.floor(this.blocks.length / 2);
+      this.blocks.splice(middleIndex, 0, block);
     }
     
     this.renderBlocks();
     this.triggerPreviewUpdate();
+    this.saveHistory();
   },
   
   updateBlockContent(id, content) {
@@ -381,7 +470,10 @@ const Editor = {
         
         // Focus state
         contentEl.addEventListener('focus', () => blockEl.classList.add('selected'));
-        contentEl.addEventListener('blur', () => blockEl.classList.remove('selected'));
+        contentEl.addEventListener('blur', () => {
+          blockEl.classList.remove('selected');
+          this.saveHistory();
+        });
         
         blockEl.appendChild(contentEl);
       }
@@ -412,6 +504,7 @@ const Editor = {
       
       this.renderBlocks();
       this.triggerPreviewUpdate();
+      this.saveHistory();
     });
   },
   
@@ -778,6 +871,10 @@ const Editor = {
         btnUp.innerText = '↑';
         btnUp.onclick = (e) => { e.stopPropagation(); this.moveBlock(block.id, 'up'); };
         
+        const btnMid = document.createElement('button');
+        btnMid.innerText = 'Mid';
+        btnMid.onclick = (e) => { e.stopPropagation(); this.moveBlock(block.id, 'mid'); };
+        
         const btnDown = document.createElement('button');
         btnDown.innerText = '↓';
         btnDown.onclick = (e) => { e.stopPropagation(); this.moveBlock(block.id, 'down'); };
@@ -788,6 +885,7 @@ const Editor = {
         
         controls.appendChild(btnTop);
         controls.appendChild(btnUp);
+        controls.appendChild(btnMid);
         controls.appendChild(btnDown);
         controls.appendChild(btnBottom);
         
