@@ -45,11 +45,27 @@ const Editor = {
   },
   
   bindEvents() {
+    // Toggle Add Block Popup
+    const btnToggleAddBlock = document.getElementById('btnToggleAddBlock');
+    const addBlockBar = document.getElementById('addBlockBar');
+    if (btnToggleAddBlock && addBlockBar) {
+      btnToggleAddBlock.addEventListener('click', (e) => {
+        e.stopPropagation();
+        addBlockBar.classList.toggle('show');
+      });
+      document.addEventListener('click', (e) => {
+        if (!addBlockBar.contains(e.target) && e.target !== btnToggleAddBlock) {
+          addBlockBar.classList.remove('show');
+        }
+      });
+    }
+
     // Add block buttons
     document.querySelectorAll('#addBlockBar button').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const type = e.currentTarget.dataset.type;
         this.addBlock(type);
+        if (addBlockBar) addBlockBar.classList.remove('show');
       });
     });
     
