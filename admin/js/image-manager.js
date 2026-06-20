@@ -164,29 +164,9 @@ const ImageManager = {
       
       // If we have a new dataUrl from upload
       if (this.currentDataUrl) {
-        const apiKey = localStorage.getItem('amy_imgbb_api_key');
-        
-        if (!apiKey) {
-          throw new Error('ImgBB API Key belum diset! Silakan buka ⚙️ Pengaturan Editor terlebih dahulu.');
-        }
-        
-        // Upload to ImgBB
-        const formData = new FormData();
-        formData.append('key', apiKey);
-        // Remove data:image/jpeg;base64,
-        formData.append('image', this.currentDataUrl.split(',')[1]);
-        
-        const response = await fetch('https://api.imgbb.com/1/upload', {
-          method: 'POST',
-          body: formData
-        });
-        
-        const result = await response.json();
-        if (result.success) {
-          finalUrl = result.data.url;
-        } else {
-          throw new Error(result.error.message || 'Gagal upload ke ImgBB');
-        }
+        // We no longer upload to ImgBB here. We just pass the base64 dataUrl back.
+        // It will be handled and uploaded to GitHub when "Simpan ke GitHub" is clicked.
+        finalUrl = this.currentDataUrl;
       }
       
       if (this.currentCallback) {

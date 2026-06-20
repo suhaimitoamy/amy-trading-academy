@@ -412,7 +412,7 @@ const Editor = {
     this.showToast(`HTML diekspor sebagai ${fileName}`, 'success');
   },
   
-  saveToGithub() {
+  async saveToGithub() {
     const urlParams = new URLSearchParams(window.location.search);
     const folder = urlParams.get('folder');
     // Prioritas path save: Gunakan "folder" + "file" dari URL editor secara absolut
@@ -429,24 +429,49 @@ const Editor = {
       return;
     }
     
+    const actualFilePath = `${folder}/${file}`;
+    const baseFilename = file.replace('.html', '');
+    const timestamp = Date.now();
+    let imageCounter = 0;
+    
+    const filesToCommit = [];
+    
+    // Process images
+    this.blocks.forEach(block => {
+      if (block.type === 'image' && block.imageUrl && block.imageUrl.startsWith('data:image/')) {
+        imageCounter++;
+        const imagePath = `images/materi/${folder}/${baseFilename}-${timestamp}-${imageCounter}.jpg`;
+        const relativeHtmlPath = `../images/materi/${folder}/${baseFilename}-${timestamp}-${imageCounter}.jpg`;
+        
+        // Extract base64 (remove 'data:image/jpeg;base64,')
+        const base64Data = block.imageUrl.split(',')[1];
+        
+        filesToCommit.push({
+          path: imagePath,
+          content: base64Data
+        });
+        
+        // Update URL to relative path for HTML export
+        block.imageUrl = relativeHtmlPath;
+      }
+    });
+    
     const html = HtmlIO.exportHtml(this.metadata, this.blocks);
     
-    // Validasi gambar base64
+    // Validasi gambar base64 tersisa yang mungkin tidak tertangkap
     if (html.includes('data:image/') || html.includes('base64,')) {
-      alert('Peringatan: Gambar masih base64. Upload ke ImgBB dulu.');
+      alert('Peringatan: Masih ada gambar base64 yang tidak valid di konten.');
       this.saveStatus.innerText = '❌ Gagal menyimpan';
       return;
     }
     
-    const actualFilePath = `${folder}/${file}`;
-    
-    const confirmMsg = `File website yang akan diupdate:\n${actualFilePath}\n\nLanjutkan?`;
+    const confirmMsg = `File yang akan disimpan ke GitHub:\n1. ${actualFilePath}\n${filesToCommit.length > 0 ? '+ ' + filesToCommit.length + ' file gambar' : ''}\n\nLanjutkan?`;
     if (!confirm(confirmMsg)) {
       this.saveStatus.innerText = 'Batal menyimpan';
       return;
     }
     
-    // Encode UTF-8 to Base64 safely
+    // Encode UTF-8 to Base64 safely for HTML
     const encoder = new TextEncoder();
     const data = encoder.encode(html);
     let binary = '';
@@ -455,34 +480,109 @@ const Editor = {
     }
     const contentBase64 = btoa(binary);
     
+    filesToCommit.push({
+      path: actualFilePath,
+      content: contentBase64
+    });
+    
     this.saveStatus.innerText = 'Menyimpan ke GitHub...';
     
-    fetch('https://api.github.com/repos/suhaimitoamy/amy-trading-academy/actions/workflows/save-html.yml/dispatches', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ref: 'main',
-        inputs: {
-          file_path: actualFilePath,
-          content_base64: contentBase64,
-          commit_message: `Update materi: ${file} dari Admin Editor`
-        }
-      })
-    })
-    .then(res => {
-      if (!res.ok) throw new Error('Network response was not ok');
-      this.saveStatus.innerText = '✓ Berhasil dikirim ke GitHub Actions';
-      this.showToast('Berhasil dikirim ke GitHub Actions. Tunggu beberapa saat.', 'success');
-    })
-    .catch(err => {
+    try {
+      await this.commitMultipleFiles(
+        token, 
+        'suhaimitoamy/amy-trading-academy', 
+        'main', 
+        filesToCommit, 
+        `Update materi: ${file} beserta ${filesToCommit.length - 1} gambar`
+      );
+      this.saveStatus.innerText = '✓ Berhasil disimpan';
+      this.showToast('Berhasil disimpan ke GitHub secara instan.', 'success');
+      this.triggerPreviewUpdate(); // re-render preview
+    } catch (err) {
       console.error(err);
       this.saveStatus.innerText = '❌ Gagal menyimpan';
-      alert('Gagal mengirim ke GitHub. Pastikan token benar dan memiliki akses repo.');
+      alert('Gagal mengirim ke GitHub. Error: ' + err.message);
+    }
+  },
+
+  async commitMultipleFiles(token, repo, branch, files, commitMessage) {
+    const baseUrl = `https://api.github.com/repos/${repo}`;
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+
+    // 1. Get branch ref
+    let res = await fetch(`${baseUrl}/git/ref/heads/${branch}`, { headers });
+    if (!res.ok) throw new Error('Gagal membaca branch reference');
+    const refData = await res.json();
+    const commitSha = refData.object.sha;
+
+    // 2. Get commit
+    res = await fetch(`${baseUrl}/git/commits/${commitSha}`, { headers });
+    if (!res.ok) throw new Error('Gagal membaca detail commit');
+    const commitData = await res.json();
+    const baseTreeSha = commitData.tree.sha;
+
+    // 3. Create blobs
+    const treeItems = [];
+    for (const file of files) {
+      res = await fetch(`${baseUrl}/git/blobs`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          content: file.content,
+          encoding: 'base64'
+        })
+      });
+      if (!res.ok) throw new Error(`Gagal membuat blob untuk ${file.path}`);
+      const blobData = await res.json();
+      treeItems.push({
+        path: file.path,
+        mode: '100644',
+        type: 'blob',
+        sha: blobData.sha
+      });
+    }
+
+    // 4. Create tree
+    res = await fetch(`${baseUrl}/git/trees`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        base_tree: baseTreeSha,
+        tree: treeItems
+      })
     });
+    if (!res.ok) throw new Error('Gagal membuat tree');
+    const treeData = await res.json();
+    const newTreeSha = treeData.sha;
+
+    // 5. Create commit
+    res = await fetch(`${baseUrl}/git/commits`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        message: commitMessage,
+        tree: newTreeSha,
+        parents: [commitSha]
+      })
+    });
+    if (!res.ok) throw new Error('Gagal membuat commit');
+    const newCommitData = await res.json();
+    const newCommitSha = newCommitData.sha;
+
+    // 6. Update reference
+    res = await fetch(`${baseUrl}/git/refs/heads/${branch}`, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify({
+        sha: newCommitSha
+      })
+    });
+    if (!res.ok) throw new Error('Gagal mengupdate branch reference');
+    return await res.json();
   },
   
   async loadFromServer(folder, file) {

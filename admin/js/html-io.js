@@ -107,7 +107,7 @@ const HtmlIO = {
           blocksHtml += `<pre><code>${block.content}</code></pre>\n`;
           break;
         case 'image':
-          if (block.imageUrl && block.imageUrl.startsWith('http')) {
+          if (block.imageUrl && (block.imageUrl.startsWith('http') || block.imageUrl.startsWith('../images/'))) {
             blocksHtml += `<div class="image-slot" style="text-align:${block.imagePosition}; max-width:${block.imageSize}; margin: 28px auto;">\n`;
             blocksHtml += `  <img src="${block.imageUrl}" alt="${block.imageCaption || 'Gambar materi'}" style="width:100%; border-radius:8px;">\n`;
             if (block.imageCaption) {
