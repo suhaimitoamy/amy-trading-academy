@@ -561,17 +561,20 @@ body {
     top: 0; left: 0; bottom: 0; right: auto !important;
     width: 280px;
     max-width: 85vw;
-    background: var(--surface) !important;
+    background: var(--bg) !important;
     z-index: 105;
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 2px 0 15px rgba(0,0,0,0.8) !important;
     display: flex !important;
     flex-direction: column;
     padding: 24px;
     gap: 16px;
     align-items: stretch !important;
     justify-content: flex-start !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    opacity: 1 !important;
   }
   .navlinks.open {
     transform: translateX(0);
@@ -582,14 +585,19 @@ body {
     background: none;
     border: none;
     font-size: 24px;
-    color: var(--heading);
+    color: var(--heading) !important;
     cursor: pointer;
     margin-bottom: 12px;
+    opacity: 1 !important;
   }
   .navlinks a, .navlinks .btn {
     width: 100%;
     text-align: left;
     padding: 12px 16px;
+    color: var(--heading) !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+    background: transparent;
   }
   
   .page-nav {

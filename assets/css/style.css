@@ -1031,7 +1031,7 @@ ul, ol { padding-left: 1.5em; }
     display: none;
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--surface);
+    background: var(--bg) !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -1039,6 +1039,14 @@ ul, ol { padding-left: 1.5em; }
     font-size: 20px;
     z-index: 105;
     animation: fadeIn 0.2s ease;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    opacity: 1 !important;
+  }
+  .navlinks a {
+    color: var(--heading) !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
   }
   .navlinks.open { display: flex; }
   .hamburger { display: flex; }
