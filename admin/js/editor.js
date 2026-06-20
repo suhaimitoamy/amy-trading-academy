@@ -415,11 +415,11 @@ const Editor = {
   saveToGithub() {
     const urlParams = new URLSearchParams(window.location.search);
     const folder = urlParams.get('folder');
-    // Prioritize currentFileName if user imported a file, otherwise fallback to URL
-    const file = this.currentFileName || urlParams.get('file');
+    // Prioritas path save: Gunakan "folder" + "file" dari URL editor secara absolut
+    const file = urlParams.get('file');
     
     if (!folder || !file) {
-      alert("Error: Folder atau file tidak ditemukan. Pastikan Anda membuka materi dari Dashboard atau melakukan Import HTML.");
+      alert("Error: Folder atau file tidak ditemukan di URL. Anda harus membuka materi melalui Dashboard Admin.");
       return;
     }
     
@@ -440,7 +440,7 @@ const Editor = {
     
     const actualFilePath = `${folder}/${file}`;
     
-    const confirmMsg = `Menyimpan ke:\n${actualFilePath}\n\nLanjutkan?`;
+    const confirmMsg = `File website yang akan diupdate:\n${actualFilePath}\n\nLanjutkan?`;
     if (!confirm(confirmMsg)) {
       this.saveStatus.innerText = 'Batal menyimpan';
       return;
