@@ -51,12 +51,15 @@ const HtmlIO = {
           const img = child.querySelector('img');
           const captionEl = child.querySelector('.slot-caption');
           let imageUrl = '';
-          if (img) imageUrl = img.getAttribute('src');
-          else imageUrl = child.getAttribute('data-img-path') || '';
+          if (img) imageUrl = img.getAttribute('src') || '';
+          
+          // Ignore base64
+          if (imageUrl.startsWith('data:image')) {
+            imageUrl = '';
+          }
           
           let caption = '';
           if (captionEl) caption = captionEl.innerText;
-          else caption = child.getAttribute('data-caption') || '';
           
           blocks.push({ 
             id, 
@@ -112,7 +115,7 @@ const HtmlIO = {
             }
             blocksHtml += `</div>\n`;
           } else {
-            blocksHtml += `<div class="image-slot" data-img-path="${block.imageUrl || ''}" data-caption="${block.imageCaption || ''}"></div>\n`;
+            blocksHtml += `<div class="image-slot" style="text-align:center; max-width:100%; margin: 28px auto;">\n  <p class="slot-caption" style="color:#999;">[Slot Gambar Kosong]</p>\n</div>\n`;
           }
           break;
       }
