@@ -17,6 +17,11 @@ const Editor = {
     this.saveStatus = document.getElementById('saveStatus');
     this.themeSelect = document.getElementById('previewTheme');
     
+    this.navFilterAll = document.getElementById('navFilterAll');
+    this.navFilterImage = document.getElementById('navFilterImage');
+    this.navBody = document.getElementById('navBody');
+    this.navFilter = 'all';
+    
     this.bindEvents();
     
     // Check URL params for existing file to load
@@ -62,6 +67,43 @@ const Editor = {
     // Export/Import
     document.getElementById('btnExport').addEventListener('click', () => this.exportHTML());
     document.getElementById('btnImport').addEventListener('click', () => document.getElementById('importFileInput').click());
+    
+    // Navigator Filter
+    if (this.navFilterAll) {
+      this.navFilterAll.addEventListener('click', () => {
+        this.navFilter = 'all';
+        this.navFilterAll.classList.add('active');
+        this.navFilterImage.classList.remove('active');
+        this.renderNavigator();
+      });
+      this.navFilterImage.addEventListener('click', () => {
+        this.navFilter = 'image';
+        this.navFilterImage.classList.add('active');
+        this.navFilterAll.classList.remove('active');
+        this.renderNavigator();
+      });
+    }
+    
+    // Toggle mobile views
+    const btnTogglePreview = document.getElementById('btnTogglePreview');
+    if (btnTogglePreview) {
+      btnTogglePreview.addEventListener('click', () => {
+        const layout = document.getElementById('editorLayout');
+        layout.classList.toggle('show-preview');
+        if (layout.classList.contains('show-preview')) {
+          btnTogglePreview.innerText = '✏️ Editor';
+        } else {
+          btnTogglePreview.innerText = '👁️ Preview';
+        }
+      });
+    }
+    
+    const btnToggleNav = document.getElementById('btnToggleNav');
+    if (btnToggleNav) {
+      btnToggleNav.addEventListener('click', () => {
+        document.getElementById('editorLayout').classList.toggle('show-nav');
+      });
+    }
     
     // GitHub Save & Settings
     document.getElementById('btnGithubSettings').addEventListener('click', () => {
@@ -195,6 +237,12 @@ const Editor = {
       const temp = this.blocks[index];
       this.blocks[index] = this.blocks[index + 1];
       this.blocks[index + 1] = temp;
+    } else if (direction === 'top' && index > 0) {
+      const block = this.blocks.splice(index, 1)[0];
+      this.blocks.unshift(block);
+    } else if (direction === 'bottom' && index < this.blocks.length - 1) {
+      const block = this.blocks.splice(index, 1)[0];
+      this.blocks.push(block);
     }
     
     this.renderBlocks();
@@ -334,6 +382,7 @@ const Editor = {
       this.container.appendChild(addBtn);
     });
     
+    this.renderNavigator();
     this.triggerPreviewUpdate();
   },
   
@@ -630,6 +679,109 @@ const Editor = {
       toast.classList.remove('show');
       setTimeout(() => toast.remove(), 300);
     }, 3000);
+  },
+  
+  renderNavigator() {
+    if (!this.navBody) return;
+    this.navBody.innerHTML = '';
+    
+    this.blocks.forEach((block, index) => {
+      if (this.navFilter === 'image' && block.type !== 'image') return;
+      
+      const el = document.createElement('div');
+      el.className = 'nav-item';
+      el.draggable = true;
+      el.dataset.id = block.id;
+      
+      let label = '';
+      if (block.type === 'paragraph') label = 'P — ' + (block.content.replace(/<[^>]+>/g, '').substring(0, 30) || 'Kosong...');
+      else if (block.type === 'heading2') label = 'H2 — ' + block.content.replace(/<[^>]+>/g, '');
+      else if (block.type === 'heading3') label = 'H3 — ' + block.content.replace(/<[^>]+>/g, '');
+      else if (block.type === 'image') label = '🖼️ Gambar — ' + (block.imageCaption || 'tanpa caption');
+      else if (block.type === 'warning') label = '⚠️ Warning';
+      else if (block.type === 'note') label = '💡 Note';
+      else if (block.type === 'list') label = 'List — ' + (block.listItems?.[0]?.replace(/<[^>]+>/g, '').substring(0,20) || 'Kosong');
+      else if (block.type === 'blockquote') label = '❞ Quote';
+      else if (block.type === 'code') label = '</> Code';
+      else label = block.type;
+      
+      const titleEl = document.createElement('div');
+      titleEl.className = 'nav-item-title';
+      titleEl.innerText = label;
+      el.appendChild(titleEl);
+      
+      // Jump to block
+      el.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') return;
+        const targetBlock = document.getElementById(block.id);
+        if (targetBlock) {
+          targetBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          targetBlock.classList.add('highlight');
+          setTimeout(() => targetBlock.classList.remove('highlight'), 2000);
+        }
+        if (window.innerWidth <= 900) {
+          document.getElementById('editorLayout').classList.remove('show-nav');
+        }
+      });
+      
+      // Drag & Drop
+      el.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', block.id);
+        el.classList.add('dragging');
+      });
+      el.addEventListener('dragend', () => el.classList.remove('dragging'));
+      el.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        el.classList.add('drag-over');
+      });
+      el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+      el.addEventListener('drop', (e) => {
+        e.preventDefault();
+        el.classList.remove('drag-over');
+        const draggedId = e.dataTransfer.getData('text/plain');
+        if (draggedId && draggedId !== block.id) {
+          const draggedIndex = this.blocks.findIndex(b => b.id === draggedId);
+          const targetIndex = this.blocks.findIndex(b => b.id === block.id);
+          if (draggedIndex > -1 && targetIndex > -1) {
+            const [draggedBlock] = this.blocks.splice(draggedIndex, 1);
+            this.blocks.splice(targetIndex, 0, draggedBlock);
+            this.renderBlocks();
+            this.triggerPreviewUpdate();
+          }
+        }
+      });
+      
+      // Quick Controls for Image
+      if (block.type === 'image') {
+        const controls = document.createElement('div');
+        controls.className = 'nav-item-controls';
+        
+        const btnTop = document.createElement('button');
+        btnTop.innerText = 'Top';
+        btnTop.onclick = (e) => { e.stopPropagation(); this.moveBlock(block.id, 'top'); };
+        
+        const btnUp = document.createElement('button');
+        btnUp.innerText = '↑';
+        btnUp.onclick = (e) => { e.stopPropagation(); this.moveBlock(block.id, 'up'); };
+        
+        const btnDown = document.createElement('button');
+        btnDown.innerText = '↓';
+        btnDown.onclick = (e) => { e.stopPropagation(); this.moveBlock(block.id, 'down'); };
+        
+        const btnBottom = document.createElement('button');
+        btnBottom.innerText = 'Bottom';
+        btnBottom.onclick = (e) => { e.stopPropagation(); this.moveBlock(block.id, 'bottom'); };
+        
+        controls.appendChild(btnTop);
+        controls.appendChild(btnUp);
+        controls.appendChild(btnDown);
+        controls.appendChild(btnBottom);
+        
+        el.appendChild(controls);
+      }
+      
+      this.navBody.appendChild(el);
+    });
   }
 };
 
