@@ -1,0 +1,26 @@
+{
+  "smart-money-concept": [
+    {
+      "question": "Apa fungsi utama dari Inducement (IDM) dalam konsep SMC?",
+      "options": [
+        "Sebagai tempat terbaik untuk meletakkan Take Profit",
+        "Sebagai jebakan likuiditas awal sebelum harga menuju ke Order Block asli",
+        "Sebagai batas pergantian tren dari Bullish ke Bearish",
+        "Sebagai konfirmasi bahwa tren sudah benar-benar berbalik"
+      ],
+      "correctIndex": 1,
+      "explanation": "Benar! Inducement (IDM) adalah jebakan likuiditas. Harga sengaja membuat 'pullback' palsu agar trader retail masuk (FOMO), lalu harga akan menyapu mereka sebelum akhirnya memantul di Order Block asli."
+    },
+    {
+      "question": "Syarat mutlak agar sebuah pelebaran harga bisa disebut Break of Structure (BOS) yang sah adalah?",
+      "options": [
+        "Harga menembus puncak/lembah sebelumnya dengan ekor (wick) saja",
+        "Harga menembus lalu langsung berbalik arah dengan cepat",
+        "Candle harus ditutup (Close Body) melewati puncak/lembah sebelumnya",
+        "Indikator RSI harus berada di atas angka 70"
+      ],
+      "correctIndex": 2,
+      "explanation": "Tepat! BOS yang sah (valid) mengharuskan harga ditutup (Close Body) melewati swing sebelumnya. Jika hanya ekor (wick) yang menembus, itu bukan BOS melainkan sapuan likuiditas (Liquidity Sweep)."
+    }
+  ]
+}
